@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6C5550E5-299E-43C8-8E03-825E024DB764}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QuadroschrauberSharp</RootNamespace>
+    <AssemblyName>QuadroSchrauberController</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>lib\SuperWebSocket\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>lib\SuperWebSocket\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="QuadroschrauberSharp.Linux">
+      <HintPath>lib\QuadroschrauberSharp.Linux.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack">
+      <HintPath>packages\ServiceStack.3.9.43\lib\net35\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>packages\ServiceStack.Common.3.9.43\lib\net35\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>packages\ServiceStack.Common.3.9.43\lib\net35\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite">
+      <HintPath>packages\ServiceStack.OrmLite.SqlServer.3.9.43\lib\ServiceStack.OrmLite.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite.SqlServer">
+      <HintPath>packages\ServiceStack.OrmLite.SqlServer.3.9.43\lib\ServiceStack.OrmLite.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis">
+      <HintPath>packages\ServiceStack.Redis.3.9.43\lib\net35\ServiceStack.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.ServiceInterface">
+      <HintPath>packages\ServiceStack.3.9.43\lib\net35\ServiceStack.ServiceInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>packages\ServiceStack.Text.3.9.43\lib\net35\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Common">
+      <HintPath>lib\SuperWebSocket\SuperSocket.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Dlr">
+      <HintPath>lib\SuperWebSocket\SuperSocket.Dlr.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Facility">
+      <HintPath>lib\SuperWebSocket\SuperSocket.Facility.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketBase">
+      <HintPath>lib\SuperWebSocket\SuperSocket.SocketBase.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketEngine">
+      <HintPath>lib\SuperWebSocket\SuperSocket.SocketEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperWebSocket">
+      <HintPath>lib\SuperWebSocket\SuperWebSocket.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Hardware\I2C.cs" />
+    <Compile Include="Hardware\I2CWindows.cs" />
+    <Compile Include="Hardware\Motor.cs" />
+    <Compile Include="Hardware\MotorServoBlaster.cs" />
+    <Compile Include="Hardware\MPU6050.cs" />
+    <Compile Include="Hardware\MPU6050Math.cs" />
+    <Compile Include="Hardware\MPU6050MotionApps.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quadroschrauber.cs" />
+    <Compile Include="Webservice.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="web\flot\API.md" />
+    <None Include="web\flot\CONTRIBUTING.md" />
+    <None Include="web\flot\examples\ajax\data-eu-gdp-growth-1.json" />
+    <None Include="web\flot\examples\ajax\data-eu-gdp-growth-2.json" />
+    <None Include="web\flot\examples\ajax\data-eu-gdp-growth-3.json" />
+    <None Include="web\flot\examples\ajax\data-eu-gdp-growth-4.json" />
+    <None Include="web\flot\examples\ajax\data-eu-gdp-growth-5.json" />
+    <None Include="web\flot\examples\ajax\data-eu-gdp-growth.json" />
+    <None Include="web\flot\examples\ajax\data-japan-gdp-growth.json" />
+    <None Include="web\flot\examples\ajax\data-usa-gdp-growth.json" />
+    <None Include="web\flot\examples\axes-time-zones\tz\africa" />
+    <None Include="web\flot\examples\axes-time-zones\tz\antarctica" />
+    <None Include="web\flot\examples\axes-time-zones\tz\asia" />
+    <None Include="web\flot\examples\axes-time-zones\tz\australasia" />
+    <None Include="web\flot\examples\axes-time-zones\tz\backward" />
+    <None Include="web\flot\examples\axes-time-zones\tz\etcetera" />
+    <None Include="web\flot\examples\axes-time-zones\tz\europe" />
+    <None Include="web\flot\examples\axes-time-zones\tz\factory" />
+    <None Include="web\flot\examples\axes-time-zones\tz\iso3166.tab" />
+    <None Include="web\flot\examples\axes-time-zones\tz\leapseconds" />
+    <None Include="web\flot\examples\axes-time-zones\tz\northamerica" />
+    <None Include="web\flot\examples\axes-time-zones\tz\pacificnew" />
+    <None Include="web\flot\examples\axes-time-zones\tz\solar87" />
+    <None Include="web\flot\examples\axes-time-zones\tz\solar88" />
+    <None Include="web\flot\examples\axes-time-zones\tz\solar89" />
+    <None Include="web\flot\examples\axes-time-zones\tz\southamerica" />
+    <None Include="web\flot\examples\axes-time-zones\tz\systemv" />
+    <None Include="web\flot\examples\axes-time-zones\tz\yearistype.sh" />
+    <None Include="web\flot\examples\axes-time-zones\tz\zone.tab" />
+    <None Include="web\flot\FAQ.md" />
+    <None Include="web\flot\Makefile" />
+    <None Include="web\flot\NEWS.md" />
+    <None Include="web\flot\PLUGINS.md" />
+    <None Include="web\flot\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="web\css\bootstrap-responsive.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\css\bootstrap-responsive.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\css\bootstrap.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\css\bootstrap.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\css\main.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\favicon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\examples\ajax\index.html" />
+    <Content Include="web\flot\examples\annotating\index.html" />
+    <Content Include="web\flot\examples\axes-interacting\index.html" />
+    <Content Include="web\flot\examples\axes-multiple\index.html" />
+    <Content Include="web\flot\examples\axes-time-zones\date.js" />
+    <Content Include="web\flot\examples\axes-time-zones\index.html" />
+    <Content Include="web\flot\examples\axes-time\index.html" />
+    <Content Include="web\flot\examples\background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\examples\basic-options\index.html" />
+    <Content Include="web\flot\examples\basic-usage\index.html" />
+    <Content Include="web\flot\examples\canvas\index.html" />
+    <Content Include="web\flot\examples\categories\index.html" />
+    <Content Include="web\flot\examples\examples.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\examples\image\hs-2004-27-a-large-web.jpg" />
+    <Content Include="web\flot\examples\image\index.html" />
+    <Content Include="web\flot\examples\index.html" />
+    <Content Include="web\flot\examples\interacting\index.html" />
+    <Content Include="web\flot\examples\navigate\arrow-down.gif" />
+    <Content Include="web\flot\examples\navigate\arrow-left.gif" />
+    <Content Include="web\flot\examples\navigate\arrow-right.gif" />
+    <Content Include="web\flot\examples\navigate\arrow-up.gif" />
+    <Content Include="web\flot\examples\navigate\index.html" />
+    <Content Include="web\flot\examples\percentiles\index.html" />
+    <Content Include="web\flot\examples\realtime\index.html" />
+    <Content Include="web\flot\examples\resize\index.html" />
+    <Content Include="web\flot\examples\selection\index.html" />
+    <Content Include="web\flot\examples\series-errorbars\index.html" />
+    <Content Include="web\flot\examples\series-pie\index.html" />
+    <Content Include="web\flot\examples\series-toggle\index.html" />
+    <Content Include="web\flot\examples\series-types\index.html" />
+    <Content Include="web\flot\examples\shared\jquery-ui\jquery-ui.min.css" />
+    <Content Include="web\flot\examples\shared\jquery-ui\jquery-ui.min.js" />
+    <Content Include="web\flot\examples\stacking\index.html" />
+    <Content Include="web\flot\examples\symbols\index.html" />
+    <Content Include="web\flot\examples\threshold\index.html" />
+    <Content Include="web\flot\examples\tracking\index.html" />
+    <Content Include="web\flot\examples\visitors\index.html" />
+    <Content Include="web\flot\examples\zooming\index.html" />
+    <Content Include="web\flot\excanvas.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\excanvas.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.colorhelpers.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.colorhelpers.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.canvas.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.canvas.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.categories.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.categories.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.crosshair.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.crosshair.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.errorbars.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.errorbars.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.fillbetween.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.fillbetween.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.image.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.image.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.navigate.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.navigate.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.pie.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.pie.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.resize.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.resize.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.selection.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.selection.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.stack.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.stack.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.symbol.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.symbol.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.threshold.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.threshold.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.time.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.flot.time.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\jquery.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\flot\LICENSE.txt" />
+    <Content Include="web\img\glyphicons-halflings-white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\img\glyphicons-halflings.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\js\main.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\js\vendor\bootstrap.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\js\vendor\bootstrap.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\js\vendor\jquery-1.9.1.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\js\vendor\modernizr-2.6.2-respond-1.1.0.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\js\vendor\smoothie.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
