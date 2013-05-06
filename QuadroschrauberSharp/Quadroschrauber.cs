@@ -137,9 +137,12 @@ byte[] fifoBuffer = new byte[64]; // FIFO storage buffer
                     GyroX = m.gx,
                     GyroY = m.gy,
                     GyroZ = m.gz,
-                    Hz = Hz
+                    Hz = Hz,
+                    MotorFront = control.Throttle,
+                    MotorBack = control.Throttle,
+                    MotorLeft = control.Throttle,
+                    MotorRight = control.Throttle
                 };
-
                 var sessions = service.WebSocket.GetAllSessions();
                 if (sessions.Any())
                 {
@@ -208,14 +211,24 @@ byte[] fifoBuffer = new byte[64]; // FIFO storage buffer
 
 
 
+            float throttle = Math.Min(control.Throttle, 0.2f);
 
+            MotorBack.Set(throttle);
+            MotorFront.Set(throttle);
+            MotorLeft.Set(throttle);
+            MotorRight.Set(throttle);
 
-
-
-            MotorFront.SetMilli(0);
+            /*MotorFront.SetMilli(0);
             MotorBack.SetMilli(0);
             MotorLeft.SetMilli(0);
-            MotorRight.SetMilli(0);
+            MotorRight.SetMilli(0);*/
+        }
+
+        ControlRequest control = new ControlRequest();
+
+        internal void Control(ControlRequest request)
+        {
+            control = request;
         }
     }
 }

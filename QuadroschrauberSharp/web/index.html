@@ -24,13 +24,16 @@
         <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
         
         <script type="text/javascript" src="js/vendor/smoothie.js"></script>
+        
 
         <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
 	    <!--<script language="javascript" type="text/javascript" src="flot/jquery.js"></script>-->
 	    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
         <script language="javascript" type="text/javascript" src="flot/jquery.flot.js"></script>
-
+        
+	<link href="css/ui-darkness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+	<script src="js/vendor/jquery-ui-1.10.3.custom.js"></script>
         
 	<script type="text/javascript">
 	    function escapeHtml(str) {
@@ -44,6 +47,7 @@
 	    var Smoothie1;
 	    var Smoothie2;
 	    var Smoothie3;
+	    var Smoothie4;
 	    var Line1;
 	    var Line2;
 	    var Line3;
@@ -54,6 +58,19 @@
 
 	    var Line7;
 
+	    var LineMotorLeft;
+	    var LineMotorRight;
+	    var LineMotorFront;
+	    var LineMotorBack;
+
+	    function refreshSwatch() {
+	        var power = $("#slider").slider("value") / 1000.0;
+
+	        /*$.get('/control/' + (power / 1000.0) + '?format=json', function (data2) {
+	        });*/
+	        Socket.send(JSON.stringify({ Throttle: power }));
+	    }
+
 	    $(function () {
 
 	        $.ajaxSetup({
@@ -61,6 +78,28 @@
 	                var errordiv = $('#trainingservice_error_message');
 	                errordiv.removeClass("hidden");
 	            }
+	        });
+
+
+	        $("#progress_front").progressbar({
+	            value: 20
+	        });
+	        $("#progress_left").progressbar({
+	            value: 40
+	        });
+	        $("#progress_right").progressbar({
+	            value: 60
+	        });
+	        $("#progress_back").progressbar({
+	            value: 80
+	        });
+
+	        $("#slider").slider({
+	            range: "min",
+	            value: 0,
+	            max: 1000,
+	            slide: refreshSwatch,
+	            change: refreshSwatch
 	        });
 
 	        Smoothie1 = new SmoothieChart();
@@ -93,6 +132,19 @@
 	        Smoothie3.addTimeSeries(Line7, { strokeStyle: 'rgb(255, 0, 0)', lineWidth: 1 });
 
 
+	        Smoothie4 = new SmoothieChart();
+	        Smoothie4.streamTo(document.getElementById("smoothie4"));
+
+
+	        LineMotorLeft = new TimeSeries();
+	        Smoothie4.addTimeSeries(LineMotorLeft, { strokeStyle: 'rgb(255, 0, 0)', lineWidth: 1 });
+	        LineMotorRight = new TimeSeries();
+	        Smoothie4.addTimeSeries(LineMotorRight, { strokeStyle: 'rgb(0, 255, 0)', lineWidth: 1 });
+	        LineMotorFront = new TimeSeries();
+	        Smoothie4.addTimeSeries(LineMotorFront, { strokeStyle: 'rgb(0, 0, 255)', lineWidth: 1 });
+	        LineMotorBack = new TimeSeries();
+	        Smoothie4.addTimeSeries(LineMotorBack, { strokeStyle: 'rgb(255, 255, 0)', lineWidth: 1 });
+
 
 	        Socket = new WebSocket("ws://" + document.location.hostname + ":8081/");
 
@@ -121,6 +173,10 @@
 
 	            Line7.append(new Date().getTime(), hz);
 
+	            LineMotorLeft.append(new Date().getTime(), data.MotorLeft);
+	            LineMotorRight.append(new Date().getTime(), data.MotorRight);
+	            LineMotorFront.append(new Date().getTime(), data.MotorFront);
+	            LineMotorBack.append(new Date().getTime(), data.MotorBack);
 	        }
 
 	        Socket.onclose = function () {
@@ -304,7 +360,22 @@
         <canvas id="smoothie2" width="600" height="200"></canvas>
                     <h2>Update rate [Hz]</h2>
         <canvas id="smoothie3" width="600" height="200"></canvas>
+                    <h2>Motors</h2>
+        <canvas id="smoothie4" width="600" height="200"></canvas>
         
+        <!--
+        <h2 class="demoHeaders">Front Motor</h2>
+        <div id="progress_front"></div>
+        <h2 class="demoHeaders">Back Motor</h2>
+        <div id="progress_back"></div>
+        <h2 class="demoHeaders">Left Motor</h2>
+        <div id="progress_left"></div>
+        <h2 class="demoHeaders">Right Motor</h2>
+        <div id="progress_right"></div>
+        -->
+<h2 class="demoHeaders">Throttle</h2>
+<div id="slider"></div>
+
         <!--
                     <h2>MPU-6050 Gyroscope</h2>
 		<div class="demo-container">

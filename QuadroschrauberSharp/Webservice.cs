@@ -20,6 +20,16 @@ namespace QuadroschrauberSharp
         public long Start { get; set; }
     }
 
+    [Route("/control/{Throttle}")]
+    public class ControlRequest : IReturn<ControlResult>
+    {
+        public float Throttle { get; set; }
+    }
+
+    public class ControlResult
+    {
+    }
+
     public class Telemetry
     {
         public long Ticks { get; set; }
@@ -79,6 +89,18 @@ namespace QuadroschrauberSharp
         }
     }
 
+    public class ControlService : Service
+    {
+        public ControlResult Get(ControlRequest request)
+        {
+            Quadroschrauber q = Quadroschrauber.Instance;
+
+            q.Control(request);
+
+            return new ControlResult();
+        }
+    }
+
     public class AppHost : AppHostHttpListenerBase
     {
         public AppHost()
@@ -86,7 +108,8 @@ namespace QuadroschrauberSharp
         public override void Configure(Funq.Container container)
         {
             Routes
-                .Add<TelemetryRequest>("/telemetry/{Start}");
+                .Add<TelemetryRequest>("/telemetry/{Start}")
+                .Add<TelemetryRequest>("/control/{Throttle}");
         }
     }
 
@@ -110,6 +133,14 @@ namespace QuadroschrauberSharp
             {
                 throw new Exception("WebSocketServer cant start");
             }
+
+            WebSocket.NewMessageReceived += WebSocket_NewMessageReceived;
+        }
+
+        void WebSocket_NewMessageReceived(WebSocketSession session, string value)
+        {
+            ControlRequest control = (ControlRequest)WebSocket.JsonDeserialize(value, typeof(ControlRequest));
+            Quadroschrauber.Instance.Control(control);
         }
     }
 }
