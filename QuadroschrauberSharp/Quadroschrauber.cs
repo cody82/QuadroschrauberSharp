@@ -34,7 +34,7 @@ namespace QuadroschrauberSharp
             MotorLeft = new MotorServoBlaster(5);
             MotorRight = new MotorServoBlaster(4);
 
-            mpu = new MPU6050(I2C);
+            mpu = new MPU6050(I2C, 0x69);
 
             Console.WriteLine("Initializing I2C devices...\n");
             mpu.initialize();
