@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -105,6 +106,15 @@ namespace QuadroschrauberSharp
             }
         }
 
+        public float GetSystemLoad()
+        {
+            using (StreamReader rs = new StreamReader("/proc/loadavg"))
+            {
+                string s = rs.ReadToEnd();
+                return float.Parse(s.Split(' ')[0]);
+            }
+        }
+
         bool dmpReady = false; // set true if DMP init was successful
 byte mpuIntStatus; // holds actual interrupt status byte from MPU
 byte devStatus; // return status after each device operation (0 = success, !0 = error)
@@ -141,7 +151,8 @@ byte[] fifoBuffer = new byte[64]; // FIFO storage buffer
                     MotorFront = control.Throttle,
                     MotorBack = control.Throttle,
                     MotorLeft = control.Throttle,
-                    MotorRight = control.Throttle
+                    MotorRight = control.Throttle,
+                    Load = GetSystemLoad()
                 };
                 var sessions = service.WebSocket.GetAllSessions();
                 if (sessions.Any())

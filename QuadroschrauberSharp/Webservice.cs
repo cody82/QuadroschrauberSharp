@@ -44,6 +44,7 @@ namespace QuadroschrauberSharp
         public float MotorLeft { get; set; }
         public float MotorRight { get; set; }
         public int Hz { get; set; }
+        public float Load { get; set; }
     }
 
     public class TelemetryList
