@@ -95,13 +95,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller.cs" />
+    <Compile Include="Filter.cs" />
     <Compile Include="Hardware\I2C.cs" />
     <Compile Include="Hardware\I2CWindows.cs" />
     <Compile Include="Hardware\Motor.cs" />
     <Compile Include="Hardware\MotorServoBlaster.cs" />
     <Compile Include="Hardware\MPU6050.cs" />
-    <Compile Include="Hardware\MPU6050Math.cs" />
+    <Compile Include="Math.cs" />
     <Compile Include="Hardware\MPU6050MotionApps.cs" />
+    <Compile Include="PID.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quadroschrauber.cs" />

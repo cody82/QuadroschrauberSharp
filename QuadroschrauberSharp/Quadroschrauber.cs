@@ -20,6 +20,7 @@ namespace QuadroschrauberSharp
 
         public I2C I2C;
         public MPU6050 mpu;
+        public Controller Controller = new Controller();
 
         public Quadroschrauber()
         {
@@ -30,16 +31,17 @@ namespace QuadroschrauberSharp
         {
             I2C = new I2C(1);
 
-            MotorFront = new MotorServoBlaster(7);
-            MotorBack = new MotorServoBlaster(6);
+            MotorFront = new MotorServoBlaster(4);
+            MotorBack = new MotorServoBlaster(7);
             MotorLeft = new MotorServoBlaster(5);
-            MotorRight = new MotorServoBlaster(4);
+            MotorRight = new MotorServoBlaster(6);
 
             mpu = new MPU6050(I2C, 0x69);
 
             Console.WriteLine("Initializing I2C devices...\n");
             mpu.initialize();
 
+            
             // verify connection
             Console.WriteLine("Testing device connections...\n");
             Console.WriteLine(mpu.testConnection() ? "MPU6050 connection successful\n" : "MPU6050 connection failed\n");
@@ -77,7 +79,10 @@ namespace QuadroschrauberSharp
                 Console.WriteLine("DMP Initialization failed (code %d)", devStatus);
             }
 
+            Console.WriteLine("Full Accel Range: " + mpu.getFullScaleAccelRange());
+            Console.WriteLine("Full Gyro Range: " + mpu.getFullScaleGyroRange());
         }
+        
 
         public int Hz;
         public void Run()
@@ -127,7 +132,11 @@ byte[] fifoBuffer = new byte[64]; // FIFO storage buffer
     public Webservice service;
         public void Tick(int microseconds)
         {
+            float dtime = (float)microseconds / 1000000.0f;
             var m = mpu.getMotion6();
+            GetSensorData(dtime, m, SensorInput);
+            Controller.Update(dtime, new RemoteInput() { active = true, throttle = control.Throttle }, SensorInput, MotorOutput);
+            SetMotors(MotorOutput);
 
             queuecounter += microseconds;
 
@@ -141,17 +150,17 @@ byte[] fifoBuffer = new byte[64]; // FIFO storage buffer
                 var t = new Telemetry()
                 {
                     Ticks = Environment.TickCount,
-                    AccelX = m.ax,
-                    AccelY = m.ay,
-                    AccelZ = m.az,
-                    GyroX = m.gx,
-                    GyroY = m.gy,
-                    GyroZ = m.gz,
+                    AccelX = SensorInput.accel.x,
+                    AccelY = SensorInput.accel.y,
+                    AccelZ = SensorInput.accel.z,
+                    GyroX = SensorInput.gyro.x,
+                    GyroY = SensorInput.gyro.y,
+                    GyroZ = SensorInput.gyro.z,
                     Hz = Hz,
-                    MotorFront = control.Throttle,
-                    MotorBack = control.Throttle,
-                    MotorLeft = control.Throttle,
-                    MotorRight = control.Throttle,
+                    MotorFront = MotorOutput.motor_front,
+                    MotorBack = MotorOutput.motor_back,
+                    MotorLeft = MotorOutput.motor_left,
+                    MotorRight = MotorOutput.motor_right,
                     Load = GetSystemLoad()
                 };
                 var sessions = service.WebSocket.GetAllSessions();
@@ -211,31 +220,26 @@ byte[] fifoBuffer = new byte[64]; // FIFO storage buffer
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-            float throttle = Math.Min(control.Throttle, 0.2f);
-
-            MotorBack.Set(throttle);
-            MotorFront.Set(throttle);
-            MotorLeft.Set(throttle);
-            MotorRight.Set(throttle);
-
-            /*MotorFront.SetMilli(0);
-            MotorBack.SetMilli(0);
-            MotorLeft.SetMilli(0);
-            MotorRight.SetMilli(0);*/
         }
 
         ControlRequest control = new ControlRequest();
+        MotorOutput MotorOutput = new MotorOutput();
+        SensorInput SensorInput = new SensorInput();
+
+        void SetMotors(MotorOutput output)
+        {
+            MotorBack.Set(MotorOutput.motor_back);
+            MotorFront.Set(MotorOutput.motor_front);
+            MotorLeft.Set(MotorOutput.motor_left);
+            MotorRight.Set(MotorOutput.motor_right);
+        }
+        void GetSensorData(float dtime, MPU6050.Motion6 motion, SensorInput output)
+        {
+            const float accel_factor = 1.0f / 16384.0f;
+            output.accel = new VectorFloat(motion.ax, motion.ay, -motion.az) * accel_factor;
+            const float gyro_factor = -(1.0f / 32768.0f * 2000.0f / 180.0f * (float)Math.PI);
+            output.gyro = new VectorFloat(motion.gx, motion.gy, motion.gz) * gyro_factor;
+        }
 
         internal void Control(ControlRequest request)
         {

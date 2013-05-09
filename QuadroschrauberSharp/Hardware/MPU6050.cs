@@ -44,6 +44,8 @@ using uint32_t = System.UInt32;
 using define = System.Byte;
 using System.Linq;
 
+using QuadroschrauberSharp;
+
 namespace QuadroschrauberSharp.Hardware
 {
     public partial class MPU6050
@@ -618,7 +620,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_GCONFIG_FS_SEL_BIT
         * @see MPU6050_GCONFIG_FS_SEL_LENGTH
         */
-        uint8_t getFullScaleGyroRange()
+        public uint8_t getFullScaleGyroRange()
         {
             return i2c.readBits(devAddr, MPU6050_RA_GYRO_CONFIG, MPU6050_GCONFIG_FS_SEL_BIT, MPU6050_GCONFIG_FS_SEL_LENGTH);
         }
@@ -630,7 +632,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_GCONFIG_FS_SEL_BIT
         * @see MPU6050_GCONFIG_FS_SEL_LENGTH
         */
-        void setFullScaleGyroRange(uint8_t range)
+        public void setFullScaleGyroRange(uint8_t range)
         {
             i2c.writeBits(devAddr, MPU6050_RA_GYRO_CONFIG, MPU6050_GCONFIG_FS_SEL_BIT, MPU6050_GCONFIG_FS_SEL_LENGTH, range);
         }
@@ -641,7 +643,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Self-test enabled value
         * @see MPU6050_RA_ACCEL_CONFIG
         */
-        bool getAccelXSelfTest()
+        public bool getAccelXSelfTest()
         {
             return i2c.readBit(devAddr, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_XA_ST_BIT) != 0;
         }
@@ -649,7 +651,7 @@ namespace QuadroschrauberSharp.Hardware
         * @param enabled Self-test enabled value
         * @see MPU6050_RA_ACCEL_CONFIG
         */
-        void setAccelXSelfTest(bool enabled)
+        public void setAccelXSelfTest(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_XA_ST_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -657,7 +659,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Self-test enabled value
         * @see MPU6050_RA_ACCEL_CONFIG
         */
-        bool getAccelYSelfTest()
+        public bool getAccelYSelfTest()
         {
             return i2c.readBit(devAddr, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_YA_ST_BIT) != 0;
         }
@@ -665,7 +667,7 @@ namespace QuadroschrauberSharp.Hardware
         * @param enabled Self-test enabled value
         * @see MPU6050_RA_ACCEL_CONFIG
         */
-        void setAccelYSelfTest(bool enabled)
+        public void setAccelYSelfTest(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_YA_ST_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -673,7 +675,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Self-test enabled value
         * @see MPU6050_RA_ACCEL_CONFIG
         */
-        bool getAccelZSelfTest()
+        public bool getAccelZSelfTest()
         {
             return i2c.readBit(devAddr, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_ZA_ST_BIT) != 0;
         }
@@ -681,7 +683,7 @@ namespace QuadroschrauberSharp.Hardware
         * @param enabled Self-test enabled value
         * @see MPU6050_RA_ACCEL_CONFIG
         */
-        void setAccelZSelfTest(bool enabled)
+        public void setAccelZSelfTest(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_ZA_ST_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -702,7 +704,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_ACONFIG_AFS_SEL_BIT
         * @see MPU6050_ACONFIG_AFS_SEL_LENGTH
         */
-        uint8_t getFullScaleAccelRange()
+        public uint8_t getFullScaleAccelRange()
         {
             return i2c.readBits(devAddr, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_AFS_SEL_BIT, MPU6050_ACONFIG_AFS_SEL_LENGTH);
         }
@@ -710,7 +712,7 @@ namespace QuadroschrauberSharp.Hardware
         * @param range New full-scale accelerometer range setting
         * @see getFullScaleAccelRange()
         */
-        void setFullScaleAccelRange(uint8_t range)
+        public void setFullScaleAccelRange(uint8_t range)
         {
             i2c.writeBits(devAddr, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_AFS_SEL_BIT, MPU6050_ACONFIG_AFS_SEL_LENGTH, range);
         }
@@ -749,7 +751,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_DHPF_RESET
         * @see MPU6050_RA_ACCEL_CONFIG
         */
-        uint8_t getDHPFMode()
+        public uint8_t getDHPFMode()
         {
             return i2c.readBits(devAddr, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_ACCEL_HPF_BIT, MPU6050_ACONFIG_ACCEL_HPF_LENGTH);
         }
@@ -759,7 +761,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_DHPF_RESET
         * @see MPU6050_RA_ACCEL_CONFIG
         */
-        void setDHPFMode(uint8_t bandwidth)
+        public void setDHPFMode(uint8_t bandwidth)
         {
             i2c.writeBits(devAddr, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_ACCEL_HPF_BIT, MPU6050_ACONFIG_ACCEL_HPF_LENGTH, bandwidth);
         }
@@ -781,7 +783,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current free-fall acceleration threshold value (LSB = 2mg)
         * @see MPU6050_RA_FF_THR
         */
-        uint8_t getFreefallDetectionThreshold()
+        public uint8_t getFreefallDetectionThreshold()
         {
             return i2c.readByte(devAddr, MPU6050_RA_FF_THR);
         }
@@ -790,7 +792,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getFreefallDetectionThreshold()
         * @see MPU6050_RA_FF_THR
         */
-        void setFreefallDetectionThreshold(uint8_t threshold)
+        public void setFreefallDetectionThreshold(uint8_t threshold)
         {
             i2c.writeByte(devAddr, MPU6050_RA_FF_THR, threshold);
         }
@@ -814,7 +816,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current free-fall duration threshold value (LSB = 1ms)
         * @see MPU6050_RA_FF_DUR
         */
-        uint8_t getFreefallDetectionDuration()
+        public uint8_t getFreefallDetectionDuration()
         {
             return i2c.readByte(devAddr, MPU6050_RA_FF_DUR);
         }
@@ -823,7 +825,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getFreefallDetectionDuration()
         * @see MPU6050_RA_FF_DUR
         */
-        void setFreefallDetectionDuration(uint8_t duration)
+        public void setFreefallDetectionDuration(uint8_t duration)
         {
             i2c.writeByte(devAddr, MPU6050_RA_FF_DUR, duration);
         }
@@ -849,7 +851,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current motion detection acceleration threshold value (LSB = 2mg)
         * @see MPU6050_RA_MOT_THR
         */
-        uint8_t getMotionDetectionThreshold()
+        public uint8_t getMotionDetectionThreshold()
         {
             return i2c.readByte(devAddr, MPU6050_RA_MOT_THR);
         }
@@ -858,7 +860,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getMotionDetectionThreshold()
         * @see MPU6050_RA_MOT_THR
         */
-        void setMotionDetectionThreshold(uint8_t threshold)
+        public void setMotionDetectionThreshold(uint8_t threshold)
         {
             i2c.writeByte(devAddr, MPU6050_RA_MOT_THR, threshold);
         }
@@ -880,7 +882,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current motion detection duration threshold value (LSB = 1ms)
         * @see MPU6050_RA_MOT_DUR
         */
-        uint8_t getMotionDetectionDuration()
+        public uint8_t getMotionDetectionDuration()
         {
             return i2c.readByte(devAddr, MPU6050_RA_MOT_DUR);
         }
@@ -889,7 +891,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getMotionDetectionDuration()
         * @see MPU6050_RA_MOT_DUR
         */
-        void setMotionDetectionDuration(uint8_t duration)
+        public void setMotionDetectionDuration(uint8_t duration)
         {
             i2c.writeByte(devAddr, MPU6050_RA_MOT_DUR, duration);
         }
@@ -921,7 +923,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current zero motion detection acceleration threshold value (LSB = 2mg)
         * @see MPU6050_RA_ZRMOT_THR
         */
-        uint8_t getZeroMotionDetectionThreshold()
+        public uint8_t getZeroMotionDetectionThreshold()
         {
             return i2c.readByte(devAddr, MPU6050_RA_ZRMOT_THR);
         }
@@ -930,7 +932,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getZeroMotionDetectionThreshold()
         * @see MPU6050_RA_ZRMOT_THR
         */
-        void setZeroMotionDetectionThreshold(uint8_t threshold)
+        public void setZeroMotionDetectionThreshold(uint8_t threshold)
         {
             i2c.writeByte(devAddr, MPU6050_RA_ZRMOT_THR, threshold);
         }
@@ -953,7 +955,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current zero motion detection duration threshold value (LSB = 64ms)
         * @see MPU6050_RA_ZRMOT_DUR
         */
-        uint8_t getZeroMotionDetectionDuration()
+        public uint8_t getZeroMotionDetectionDuration()
         {
             return i2c.readByte(devAddr, MPU6050_RA_ZRMOT_DUR);
         }
@@ -962,7 +964,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getZeroMotionDetectionDuration()
         * @see MPU6050_RA_ZRMOT_DUR
         */
-        void setZeroMotionDetectionDuration(uint8_t duration)
+        public void setZeroMotionDetectionDuration(uint8_t duration)
         {
             i2c.writeByte(devAddr, MPU6050_RA_ZRMOT_DUR, duration);
         }
@@ -975,7 +977,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current temperature FIFO enabled value
         * @see MPU6050_RA_FIFO_EN
         */
-        bool getTempFIFOEnabled()
+        public bool getTempFIFOEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_TEMP_FIFO_EN_BIT) != 0;
         }
@@ -984,7 +986,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getTempFIFOEnabled()
         * @see MPU6050_RA_FIFO_EN
         */
-        void setTempFIFOEnabled(bool enabled)
+        public void setTempFIFOEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_TEMP_FIFO_EN_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -994,7 +996,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current gyroscope X-axis FIFO enabled value
         * @see MPU6050_RA_FIFO_EN
         */
-        bool getXGyroFIFOEnabled()
+        public bool getXGyroFIFOEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_XG_FIFO_EN_BIT) != 0;
         }
@@ -1003,7 +1005,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getXGyroFIFOEnabled()
         * @see MPU6050_RA_FIFO_EN
         */
-        void setXGyroFIFOEnabled(bool enabled)
+        public void setXGyroFIFOEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_XG_FIFO_EN_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -1013,7 +1015,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current gyroscope Y-axis FIFO enabled value
         * @see MPU6050_RA_FIFO_EN
         */
-        bool getYGyroFIFOEnabled()
+        public bool getYGyroFIFOEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_YG_FIFO_EN_BIT) != 0;
         }
@@ -1022,7 +1024,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getYGyroFIFOEnabled()
         * @see MPU6050_RA_FIFO_EN
         */
-        void setYGyroFIFOEnabled(bool enabled)
+        public void setYGyroFIFOEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_YG_FIFO_EN_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -1032,7 +1034,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current gyroscope Z-axis FIFO enabled value
         * @see MPU6050_RA_FIFO_EN
         */
-        bool getZGyroFIFOEnabled()
+        public bool getZGyroFIFOEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_ZG_FIFO_EN_BIT) != 0;
         }
@@ -1041,7 +1043,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getZGyroFIFOEnabled()
         * @see MPU6050_RA_FIFO_EN
         */
-        void setZGyroFIFOEnabled(bool enabled)
+        public void setZGyroFIFOEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_ZG_FIFO_EN_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -1052,7 +1054,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current accelerometer FIFO enabled value
         * @see MPU6050_RA_FIFO_EN
         */
-        bool getAccelFIFOEnabled()
+        public bool getAccelFIFOEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_ACCEL_FIFO_EN_BIT) != 0;
         }
@@ -1061,7 +1063,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getAccelFIFOEnabled()
         * @see MPU6050_RA_FIFO_EN
         */
-        void setAccelFIFOEnabled(bool enabled)
+        public void setAccelFIFOEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_ACCEL_FIFO_EN_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -1071,7 +1073,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current Slave 2 FIFO enabled value
         * @see MPU6050_RA_FIFO_EN
         */
-        bool getSlave2FIFOEnabled()
+        public bool getSlave2FIFOEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_SLV2_FIFO_EN_BIT) != 0;
         }
@@ -1080,7 +1082,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlave2FIFOEnabled()
         * @see MPU6050_RA_FIFO_EN
         */
-        void setSlave2FIFOEnabled(bool enabled)
+        public void setSlave2FIFOEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_SLV2_FIFO_EN_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -1090,7 +1092,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current Slave 1 FIFO enabled value
         * @see MPU6050_RA_FIFO_EN
         */
-        bool getSlave1FIFOEnabled()
+        public bool getSlave1FIFOEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_SLV1_FIFO_EN_BIT) != 0;
         }
@@ -1099,7 +1101,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlave1FIFOEnabled()
         * @see MPU6050_RA_FIFO_EN
         */
-        void setSlave1FIFOEnabled(bool enabled)
+        public void setSlave1FIFOEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_SLV1_FIFO_EN_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -1109,7 +1111,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current Slave 0 FIFO enabled value
         * @see MPU6050_RA_FIFO_EN
         */
-        bool getSlave0FIFOEnabled()
+        public bool getSlave0FIFOEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_SLV0_FIFO_EN_BIT) != 0;
         }
@@ -1118,7 +1120,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlave0FIFOEnabled()
         * @see MPU6050_RA_FIFO_EN
         */
-        void setSlave0FIFOEnabled(bool enabled)
+        public void setSlave0FIFOEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_FIFO_EN, MPU6050_SLV0_FIFO_EN_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -1140,7 +1142,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current multi-master enabled value
         * @see MPU6050_RA_I2C_MST_CTRL
         */
-        bool getMultiMasterEnabled()
+        public bool getMultiMasterEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_I2C_MST_CTRL, MPU6050_MULT_MST_EN_BIT) != 0;
         }
@@ -1149,7 +1151,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getMultiMasterEnabled()
         * @see MPU6050_RA_I2C_MST_CTRL
         */
-        void setMultiMasterEnabled(bool enabled)
+        public void setMultiMasterEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_I2C_MST_CTRL, MPU6050_MULT_MST_EN_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -1164,7 +1166,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current wait-for-external-sensor-data enabled value
         * @see MPU6050_RA_I2C_MST_CTRL
         */
-        bool getWaitForExternalSensorEnabled()
+        public bool getWaitForExternalSensorEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_I2C_MST_CTRL, MPU6050_WAIT_FOR_ES_BIT) != 0;
         }
@@ -1173,7 +1175,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getWaitForExternalSensorEnabled()
         * @see MPU6050_RA_I2C_MST_CTRL
         */
-        void setWaitForExternalSensorEnabled(bool enabled)
+        public void setWaitForExternalSensorEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_I2C_MST_CTRL, MPU6050_WAIT_FOR_ES_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -1183,7 +1185,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current Slave 3 FIFO enabled value
         * @see MPU6050_RA_MST_CTRL
         */
-        bool getSlave3FIFOEnabled()
+        public bool getSlave3FIFOEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_I2C_MST_CTRL, MPU6050_SLV_3_FIFO_EN_BIT) != 0;
         }
@@ -1192,7 +1194,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlave3FIFOEnabled()
         * @see MPU6050_RA_MST_CTRL
         */
-        void setSlave3FIFOEnabled(bool enabled)
+        public void setSlave3FIFOEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_I2C_MST_CTRL, MPU6050_SLV_3_FIFO_EN_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -1206,7 +1208,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current slave read/write transition enabled value
         * @see MPU6050_RA_I2C_MST_CTRL
         */
-        bool getSlaveReadWriteTransitionEnabled()
+        public bool getSlaveReadWriteTransitionEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_I2C_MST_CTRL, MPU6050_I2C_MST_P_NSR_BIT) != 0;
         }
@@ -1215,7 +1217,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlaveReadWriteTransitionEnabled()
         * @see MPU6050_RA_I2C_MST_CTRL
         */
-        void setSlaveReadWriteTransitionEnabled(bool enabled)
+        public void setSlaveReadWriteTransitionEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_I2C_MST_CTRL, MPU6050_I2C_MST_P_NSR_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -1248,7 +1250,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current I2C master clock speed
         * @see MPU6050_RA_I2C_MST_CTRL
         */
-        uint8_t getMasterClockSpeed()
+        public uint8_t getMasterClockSpeed()
         {
             return i2c.readBits(devAddr, MPU6050_RA_I2C_MST_CTRL, MPU6050_I2C_MST_CLK_BIT, MPU6050_I2C_MST_CLK_LENGTH);
         }
@@ -1256,7 +1258,7 @@ namespace QuadroschrauberSharp.Hardware
         * @reparam speed Current I2C master clock speed
         * @see MPU6050_RA_I2C_MST_CTRL
         */
-        void setMasterClockSpeed(uint8_t speed)
+        public void setMasterClockSpeed(uint8_t speed)
         {
             i2c.writeBits(devAddr, MPU6050_RA_I2C_MST_CTRL, MPU6050_I2C_MST_CLK_BIT, MPU6050_I2C_MST_CLK_LENGTH, speed);
         }
@@ -1304,7 +1306,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current address for specified slave
         * @see MPU6050_RA_I2C_SLV0_ADDR
         */
-        uint8_t getSlaveAddress(uint8_t num)
+        public uint8_t getSlaveAddress(uint8_t num)
         {
             if (num > 3) return 0;
             return i2c.readByte(devAddr, (byte)(MPU6050_RA_I2C_SLV0_ADDR + num * 3));
@@ -1315,7 +1317,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlaveAddress()
         * @see MPU6050_RA_I2C_SLV0_ADDR
         */
-        void setSlaveAddress(uint8_t num, uint8_t address)
+        public void setSlaveAddress(uint8_t num, uint8_t address)
         {
             if (num > 3) return;
             i2c.writeByte(devAddr, (byte)(MPU6050_RA_I2C_SLV0_ADDR + num * 3), address);
@@ -1331,7 +1333,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current active register for specified slave
         * @see MPU6050_RA_I2C_SLV0_REG
         */
-        uint8_t getSlaveRegister(uint8_t num)
+        public uint8_t getSlaveRegister(uint8_t num)
         {
             if (num > 3) return 0;
             return i2c.readByte(devAddr, (byte)(MPU6050_RA_I2C_SLV0_REG + num * 3));
@@ -1342,7 +1344,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlaveRegister()
         * @see MPU6050_RA_I2C_SLV0_REG
         */
-        void setSlaveRegister(uint8_t num, uint8_t reg)
+        public void setSlaveRegister(uint8_t num, uint8_t reg)
         {
             if (num > 3) return;
             i2c.writeByte(devAddr, (byte)(MPU6050_RA_I2C_SLV0_REG + num * 3), reg);
@@ -1354,7 +1356,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current enabled value for specified slave
         * @see MPU6050_RA_I2C_SLV0_CTRL
         */
-        bool getSlaveEnabled(uint8_t num)
+        public bool getSlaveEnabled(uint8_t num)
         {
             if (num > 3) return false;
             return i2c.readBit(devAddr, (byte)(MPU6050_RA_I2C_SLV0_CTRL + num * 3), MPU6050_I2C_SLV_EN_BIT) != 0;
@@ -1365,7 +1367,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlaveEnabled()
         * @see MPU6050_RA_I2C_SLV0_CTRL
         */
-        void setSlaveEnabled(uint8_t num, bool enabled)
+        public void setSlaveEnabled(uint8_t num, bool enabled)
         {
             if (num > 3) return;
             i2c.writeBit(devAddr, (byte)(MPU6050_RA_I2C_SLV0_CTRL + num * 3), MPU6050_I2C_SLV_EN_BIT, enabled ? (byte)1 : (byte)0);
@@ -1381,7 +1383,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current word pair byte-swapping enabled value for specified slave
         * @see MPU6050_RA_I2C_SLV0_CTRL
         */
-        bool getSlaveWordByteSwap(uint8_t num)
+        public bool getSlaveWordByteSwap(uint8_t num)
         {
             if (num > 3) return false;
             return i2c.readBit(devAddr, (byte)(MPU6050_RA_I2C_SLV0_CTRL + num * 3), MPU6050_I2C_SLV_BYTE_SW_BIT) != 0;
@@ -1392,7 +1394,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlaveWordByteSwap()
         * @see MPU6050_RA_I2C_SLV0_CTRL
         */
-        void setSlaveWordByteSwap(uint8_t num, bool enabled)
+        public void setSlaveWordByteSwap(uint8_t num, bool enabled)
         {
             if (num > 3) return;
             i2c.writeBit(devAddr, (byte)(MPU6050_RA_I2C_SLV0_CTRL + num * 3), MPU6050_I2C_SLV_BYTE_SW_BIT, enabled);
@@ -1407,7 +1409,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current write mode for specified slave (0 = register address + data, 1 = data only)
         * @see MPU6050_RA_I2C_SLV0_CTRL
         */
-        bool getSlaveWriteMode(uint8_t num)
+        public bool getSlaveWriteMode(uint8_t num)
         {
             if (num > 3) return false;
             return i2c.readBit(devAddr, (byte)(MPU6050_RA_I2C_SLV0_CTRL + num * 3), MPU6050_I2C_SLV_REG_DIS_BIT) != 0;
@@ -1418,7 +1420,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlaveWriteMode()
         * @see MPU6050_RA_I2C_SLV0_CTRL
         */
-        void setSlaveWriteMode(uint8_t num, bool mode)
+        public void setSlaveWriteMode(uint8_t num, bool mode)
         {
             if (num > 3) return;
             i2c.writeBit(devAddr, (byte)(MPU6050_RA_I2C_SLV0_CTRL + num * 3), MPU6050_I2C_SLV_REG_DIS_BIT, mode);
@@ -1434,7 +1436,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current word pair grouping order offset for specified slave
         * @see MPU6050_RA_I2C_SLV0_CTRL
         */
-        bool getSlaveWordGroupOffset(uint8_t num)
+        public bool getSlaveWordGroupOffset(uint8_t num)
         {
             if (num > 3) return false;
             return i2c.readBit(devAddr, (byte)(MPU6050_RA_I2C_SLV0_CTRL + num * 3), MPU6050_I2C_SLV_GRP_BIT) != 0;
@@ -1445,7 +1447,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlaveWordGroupOffset()
         * @see MPU6050_RA_I2C_SLV0_CTRL
         */
-        void setSlaveWordGroupOffset(uint8_t num, bool enabled)
+        public void setSlaveWordGroupOffset(uint8_t num, bool enabled)
         {
             if (num > 3) return;
             i2c.writeBit(devAddr, (byte)(MPU6050_RA_I2C_SLV0_CTRL + num * 3), MPU6050_I2C_SLV_GRP_BIT, enabled);
@@ -1457,7 +1459,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Number of bytes to read for specified slave
         * @see MPU6050_RA_I2C_SLV0_CTRL
         */
-        uint8_t getSlaveDataLength(uint8_t num)
+        public uint8_t getSlaveDataLength(uint8_t num)
         {
             if (num > 3) return 0;
             return i2c.readBits(devAddr, MPU6050_RA_I2C_SLV0_CTRL + num * 3, MPU6050_I2C_SLV_LEN_BIT, MPU6050_I2C_SLV_LEN_LENGTH);
@@ -1468,7 +1470,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlaveDataLength()
         * @see MPU6050_RA_I2C_SLV0_CTRL
         */
-        void setSlaveDataLength(uint8_t num, uint8_t length)
+        public void setSlaveDataLength(uint8_t num, uint8_t length)
         {
             if (num > 3) return;
             i2c.writeBits(devAddr, MPU6050_RA_I2C_SLV0_CTRL + num * 3, MPU6050_I2C_SLV_LEN_BIT, MPU6050_I2C_SLV_LEN_LENGTH, length);
@@ -1485,7 +1487,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlaveAddress()
         * @see MPU6050_RA_I2C_SLV4_ADDR
         */
-        uint8_t getSlave4Address()
+        public uint8_t getSlave4Address()
         {
             return i2c.readByte(devAddr, MPU6050_RA_I2C_SLV4_ADDR);
         }
@@ -1494,7 +1496,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlave4Address()
         * @see MPU6050_RA_I2C_SLV4_ADDR
         */
-        void setSlave4Address(uint8_t address)
+        public void setSlave4Address(uint8_t address)
         {
             i2c.writeByte(devAddr, MPU6050_RA_I2C_SLV4_ADDR, address);
         }
@@ -1505,7 +1507,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current active register for Slave 4
         * @see MPU6050_RA_I2C_SLV4_REG
         */
-        uint8_t getSlave4Register()
+        public uint8_t getSlave4Register()
         {
             return i2c.readByte(devAddr, MPU6050_RA_I2C_SLV4_REG);
         }
@@ -1514,7 +1516,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlave4Register()
         * @see MPU6050_RA_I2C_SLV4_REG
         */
-        void setSlave4Register(uint8_t reg)
+        public void setSlave4Register(uint8_t reg)
         {
             i2c.writeByte(devAddr, MPU6050_RA_I2C_SLV4_REG, reg);
         }
@@ -1524,7 +1526,7 @@ namespace QuadroschrauberSharp.Hardware
         * @param data New byte to write to Slave 4
         * @see MPU6050_RA_I2C_SLV4_DO
         */
-        void setSlave4OutputByte(uint8_t data)
+        public void setSlave4OutputByte(uint8_t data)
         {
             i2c.writeByte(devAddr, MPU6050_RA_I2C_SLV4_DO, data);
         }
@@ -1534,7 +1536,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current enabled value for Slave 4
         * @see MPU6050_RA_I2C_SLV4_CTRL
         */
-        bool getSlave4Enabled()
+        public bool getSlave4Enabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_I2C_SLV4_CTRL, MPU6050_I2C_SLV4_EN_BIT) != 0;
         }
@@ -1543,7 +1545,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlave4Enabled()
         * @see MPU6050_RA_I2C_SLV4_CTRL
         */
-        void setSlave4Enabled(bool enabled)
+        public void setSlave4Enabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_I2C_SLV4_CTRL, MPU6050_I2C_SLV4_EN_BIT, enabled ? (byte)1 : (byte)0);
         }
@@ -1556,7 +1558,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current enabled value for Slave 4 transaction interrupts.
         * @see MPU6050_RA_I2C_SLV4_CTRL
         */
-        bool getSlave4InterruptEnabled()
+        public bool getSlave4InterruptEnabled()
         {
             return i2c.readBit(devAddr, MPU6050_RA_I2C_SLV4_CTRL, MPU6050_I2C_SLV4_INT_EN_BIT) != 0;
         }
@@ -1565,7 +1567,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlave4InterruptEnabled()
         * @see MPU6050_RA_I2C_SLV4_CTRL
         */
-        void setSlave4InterruptEnabled(bool enabled)
+        public void setSlave4InterruptEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_I2C_SLV4_CTRL, MPU6050_I2C_SLV4_INT_EN_BIT, enabled);
         }
@@ -1578,7 +1580,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current write mode for Slave 4 (0 = register address + data, 1 = data only)
         * @see MPU6050_RA_I2C_SLV4_CTRL
         */
-        bool getSlave4WriteMode()
+        public bool getSlave4WriteMode()
         {
             return i2c.readBit(devAddr, MPU6050_RA_I2C_SLV4_CTRL, MPU6050_I2C_SLV4_REG_DIS_BIT) != 0;
         }
@@ -1587,7 +1589,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlave4WriteMode()
         * @see MPU6050_RA_I2C_SLV4_CTRL
         */
-        void setSlave4WriteMode(bool mode)
+        public void setSlave4WriteMode(bool mode)
         {
             i2c.writeBit(devAddr, MPU6050_RA_I2C_SLV4_CTRL, MPU6050_I2C_SLV4_REG_DIS_BIT, mode);
         }
@@ -1606,7 +1608,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current Slave 4 master delay value
         * @see MPU6050_RA_I2C_SLV4_CTRL
         */
-        uint8_t getSlave4MasterDelay()
+        public uint8_t getSlave4MasterDelay()
         {
             return i2c.readBits(devAddr, MPU6050_RA_I2C_SLV4_CTRL, MPU6050_I2C_SLV4_MST_DLY_BIT, MPU6050_I2C_SLV4_MST_DLY_LENGTH);
         }
@@ -1615,7 +1617,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getSlave4MasterDelay()
         * @see MPU6050_RA_I2C_SLV4_CTRL
         */
-        void setSlave4MasterDelay(uint8_t delay)
+        public void setSlave4MasterDelay(uint8_t delay)
         {
             i2c.writeBits(devAddr, MPU6050_RA_I2C_SLV4_CTRL, MPU6050_I2C_SLV4_MST_DLY_BIT, MPU6050_I2C_SLV4_MST_DLY_LENGTH, delay);
         }
@@ -1625,7 +1627,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Last available byte read from to Slave 4
         * @see MPU6050_RA_I2C_SLV4_DI
         */
-        uint8_t getSlate4InputByte()
+        public uint8_t getSlate4InputByte()
         {
             return i2c.readByte(devAddr, MPU6050_RA_I2C_SLV4_DI);
         }
@@ -1641,7 +1643,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return FSYNC interrupt status
         * @see MPU6050_RA_I2C_MST_STATUS
         */
-        bool getPassthroughStatus()
+        public bool getPassthroughStatus()
         {
             return i2c.readBit(devAddr, MPU6050_RA_I2C_MST_STATUS, MPU6050_MST_PASS_THROUGH_BIT) != 0;
         }
@@ -1653,7 +1655,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Slave 4 transaction done status
         * @see MPU6050_RA_I2C_MST_STATUS
         */
-        bool getSlave4IsDone()
+        public bool getSlave4IsDone()
         {
             return i2c.readBit(devAddr, MPU6050_RA_I2C_MST_STATUS, MPU6050_MST_I2C_SLV4_DONE_BIT) != 0;
         }
@@ -1664,7 +1666,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Master arbitration lost status
         * @see MPU6050_RA_I2C_MST_STATUS
         */
-        bool getLostArbitration()
+        public bool getLostArbitration()
         {
             return i2c.readBit(devAddr, MPU6050_RA_I2C_MST_STATUS, MPU6050_MST_I2C_LOST_ARB_BIT) != 0;
         }
@@ -1675,7 +1677,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Slave 4 NACK interrupt status
         * @see MPU6050_RA_I2C_MST_STATUS
         */
-        bool getSlave4Nack()
+        public bool getSlave4Nack()
         {
             return i2c.readBit(devAddr, MPU6050_RA_I2C_MST_STATUS, MPU6050_MST_I2C_SLV4_NACK_BIT) != 0;
         }
@@ -1686,7 +1688,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Slave 3 NACK interrupt status
         * @see MPU6050_RA_I2C_MST_STATUS
         */
-        bool getSlave3Nack()
+        public bool getSlave3Nack()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_I2C_MST_STATUS, MPU6050_MST_I2C_SLV3_NACK_BIT);
         }
@@ -1697,7 +1699,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Slave 2 NACK interrupt status
         * @see MPU6050_RA_I2C_MST_STATUS
         */
-        bool getSlave2Nack()
+        public bool getSlave2Nack()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_I2C_MST_STATUS, MPU6050_MST_I2C_SLV2_NACK_BIT);
         }
@@ -1708,7 +1710,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Slave 1 NACK interrupt status
         * @see MPU6050_RA_I2C_MST_STATUS
         */
-        bool getSlave1Nack()
+        public bool getSlave1Nack()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_I2C_MST_STATUS, MPU6050_MST_I2C_SLV1_NACK_BIT);
         }
@@ -1719,7 +1721,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Slave 0 NACK interrupt status
         * @see MPU6050_RA_I2C_MST_STATUS
         */
-        bool getSlave0Nack()
+        public bool getSlave0Nack()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_I2C_MST_STATUS, MPU6050_MST_I2C_SLV0_NACK_BIT);
         }
@@ -1732,7 +1734,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_INT_LEVEL_BIT
         */
-        bool getInterruptMode()
+        public bool getInterruptMode()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_INT_LEVEL_BIT);
         }
@@ -1742,7 +1744,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_INT_LEVEL_BIT
         */
-        void setInterruptMode(bool mode)
+        public void setInterruptMode(bool mode)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_INT_LEVEL_BIT, mode);
         }
@@ -1752,7 +1754,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_INT_OPEN_BIT
         */
-        bool getInterruptDrive()
+        public bool getInterruptDrive()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_INT_OPEN_BIT);
         }
@@ -1762,7 +1764,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_INT_OPEN_BIT
         */
-        void setInterruptDrive(bool drive)
+        public void setInterruptDrive(bool drive)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_INT_OPEN_BIT, drive);
         }
@@ -1772,7 +1774,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_LATCH_INT_EN_BIT
         */
-        bool getInterruptLatch()
+        public bool getInterruptLatch()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_LATCH_INT_EN_BIT);
         }
@@ -1782,7 +1784,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_LATCH_INT_EN_BIT
         */
-        void setInterruptLatch(bool latch)
+        public void setInterruptLatch(bool latch)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_LATCH_INT_EN_BIT, latch);
         }
@@ -1792,7 +1794,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_INT_RD_CLEAR_BIT
         */
-        bool getInterruptLatchClear()
+        public bool getInterruptLatchClear()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_INT_RD_CLEAR_BIT);
         }
@@ -1802,7 +1804,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_INT_RD_CLEAR_BIT
         */
-        void setInterruptLatchClear(bool clear)
+        public void setInterruptLatchClear(bool clear)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_INT_RD_CLEAR_BIT, clear);
         }
@@ -1812,7 +1814,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_FSYNC_INT_LEVEL_BIT
         */
-        bool getFSyncInterruptLevel()
+        public bool getFSyncInterruptLevel()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_FSYNC_INT_LEVEL_BIT);
         }
@@ -1822,7 +1824,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_FSYNC_INT_LEVEL_BIT
         */
-        void setFSyncInterruptLevel(bool level)
+        public void setFSyncInterruptLevel(bool level)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_FSYNC_INT_LEVEL_BIT, level);
         }
@@ -1832,7 +1834,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_FSYNC_INT_EN_BIT
         */
-        bool getFSyncInterruptEnabled()
+        public bool getFSyncInterruptEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_FSYNC_INT_EN_BIT);
         }
@@ -1842,7 +1844,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_FSYNC_INT_EN_BIT
         */
-        void setFSyncInterruptEnabled(bool enabled)
+        public void setFSyncInterruptEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_FSYNC_INT_EN_BIT, enabled);
         }
@@ -1857,7 +1859,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_I2C_BYPASS_EN_BIT
         */
-        bool getI2CBypassEnabled()
+        public bool getI2CBypassEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_I2C_BYPASS_EN_BIT);
         }
@@ -1872,7 +1874,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_I2C_BYPASS_EN_BIT
         */
-        void setI2CBypassEnabled(bool enabled)
+        public void setI2CBypassEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_I2C_BYPASS_EN_BIT, enabled);
         }
@@ -1885,7 +1887,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_CLKOUT_EN_BIT
         */
-        bool getClockOutputEnabled()
+        public bool getClockOutputEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_CLKOUT_EN_BIT);
         }
@@ -1898,7 +1900,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_PIN_CFG
         * @see MPU6050_INTCFG_CLKOUT_EN_BIT
         */
-        void setClockOutputEnabled(bool enabled)
+        public void setClockOutputEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_CLKOUT_EN_BIT, enabled);
         }
@@ -1912,7 +1914,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_FF_BIT
         **/
-        uint8_t getIntEnabled()
+        public uint8_t getIntEnabled()
         {
             return i2c.readByte(devAddr, MPU6050_RA_INT_ENABLE);
         }
@@ -1924,7 +1926,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_FF_BIT
         **/
-        void setIntEnabled(uint8_t enabled)
+        public void setIntEnabled(uint8_t enabled)
         {
             i2c.writeByte(devAddr, MPU6050_RA_INT_ENABLE, enabled);
         }
@@ -1934,7 +1936,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_FF_BIT
         **/
-        bool getIntFreefallEnabled()
+        public bool getIntFreefallEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_FF_BIT);
         }
@@ -1944,7 +1946,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_FF_BIT
         **/
-        void setIntFreefallEnabled(bool enabled)
+        public void setIntFreefallEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_FF_BIT, enabled);
         }
@@ -1954,7 +1956,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_MOT_BIT
         **/
-        bool getIntMotionEnabled()
+        public bool getIntMotionEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_MOT_BIT);
         }
@@ -1964,7 +1966,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_MOT_BIT
         **/
-        void setIntMotionEnabled(bool enabled)
+        public void setIntMotionEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_MOT_BIT, enabled);
         }
@@ -1974,7 +1976,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_ZMOT_BIT
         **/
-        bool getIntZeroMotionEnabled()
+        public bool getIntZeroMotionEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_ZMOT_BIT);
         }
@@ -1984,7 +1986,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_ZMOT_BIT
         **/
-        void setIntZeroMotionEnabled(bool enabled)
+        public void setIntZeroMotionEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_ZMOT_BIT, enabled);
         }
@@ -1994,7 +1996,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_FIFO_OFLOW_BIT
         **/
-        bool getIntFIFOBufferOverflowEnabled()
+        public bool getIntFIFOBufferOverflowEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_FIFO_OFLOW_BIT);
         }
@@ -2004,7 +2006,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_FIFO_OFLOW_BIT
         **/
-        void setIntFIFOBufferOverflowEnabled(bool enabled)
+        public void setIntFIFOBufferOverflowEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_FIFO_OFLOW_BIT, enabled);
         }
@@ -2015,7 +2017,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_I2C_MST_INT_BIT
         **/
-        bool getIntI2CMasterEnabled()
+        public bool getIntI2CMasterEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_I2C_MST_INT_BIT);
         }
@@ -2025,7 +2027,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_I2C_MST_INT_BIT
         **/
-        void setIntI2CMasterEnabled(bool enabled)
+        public void setIntI2CMasterEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_I2C_MST_INT_BIT, enabled);
         }
@@ -2036,7 +2038,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_ENABLE
         * @see MPU6050_INTERRUPT_DATA_RDY_BIT
         */
-        bool getIntDataReadyEnabled()
+        public bool getIntDataReadyEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_DATA_RDY_BIT);
         }
@@ -2046,7 +2048,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_CFG
         * @see MPU6050_INTERRUPT_DATA_RDY_BIT
         */
-        void setIntDataReadyEnabled(bool enabled)
+        public void setIntDataReadyEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_DATA_RDY_BIT, enabled);
         }
@@ -2071,7 +2073,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_STATUS
         * @see MPU6050_INTERRUPT_FF_BIT
         */
-        bool getIntFreefallStatus()
+        public bool getIntFreefallStatus()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_STATUS, MPU6050_INTERRUPT_FF_BIT);
         }
@@ -2082,7 +2084,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_STATUS
         * @see MPU6050_INTERRUPT_MOT_BIT
         */
-        bool getIntMotionStatus()
+        public bool getIntMotionStatus()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_STATUS, MPU6050_INTERRUPT_MOT_BIT);
         }
@@ -2093,7 +2095,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_STATUS
         * @see MPU6050_INTERRUPT_ZMOT_BIT
         */
-        bool getIntZeroMotionStatus()
+        public bool getIntZeroMotionStatus()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_STATUS, MPU6050_INTERRUPT_ZMOT_BIT);
         }
@@ -2104,7 +2106,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_STATUS
         * @see MPU6050_INTERRUPT_FIFO_OFLOW_BIT
         */
-        bool getIntFIFOBufferOverflowStatus()
+        public bool getIntFIFOBufferOverflowStatus()
         {
             return i2c.readBit(devAddr, MPU6050_RA_INT_STATUS, MPU6050_INTERRUPT_FIFO_OFLOW_BIT) != 0;
         }
@@ -2116,7 +2118,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_STATUS
         * @see MPU6050_INTERRUPT_I2C_MST_INT_BIT
         */
-        bool getIntI2CMasterStatus()
+        public bool getIntI2CMasterStatus()
         {
             return i2c.readBit(devAddr, MPU6050_RA_INT_STATUS, MPU6050_INTERRUPT_I2C_MST_INT_BIT) != 0;
         }
@@ -2127,7 +2129,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_INT_STATUS
         * @see MPU6050_INTERRUPT_DATA_RDY_BIT
         */
-        bool getIntDataReadyStatus()
+        public bool getIntDataReadyStatus()
         {
             return i2c.readBit(devAddr, MPU6050_RA_INT_STATUS, MPU6050_INTERRUPT_DATA_RDY_BIT) != 0;
         }
@@ -2243,7 +2245,7 @@ namespace QuadroschrauberSharp.Hardware
         * @param z 16-bit signed integer container for Z-axis acceleration
         * @see MPU6050_RA_GYRO_XOUT_H
         */
-        Vector3 getAcceleration()
+        public Vector3 getAcceleration()
         {
             Vector3 v;
             i2c.readBytes(devAddr, MPU6050_RA_ACCEL_XOUT_H, 6, buffer);
@@ -2257,7 +2259,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getMotion6()
         * @see MPU6050_RA_ACCEL_XOUT_H
         */
-        int16_t getAccelerationX()
+        public int16_t getAccelerationX()
         {
             i2c.readBytes(devAddr, MPU6050_RA_ACCEL_XOUT_H, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
@@ -2267,7 +2269,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getMotion6()
         * @see MPU6050_RA_ACCEL_YOUT_H
         */
-        int16_t getAccelerationY()
+        public int16_t getAccelerationY()
         {
             i2c.readBytes(devAddr, MPU6050_RA_ACCEL_YOUT_H, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
@@ -2277,7 +2279,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getMotion6()
         * @see MPU6050_RA_ACCEL_ZOUT_H
         */
-        int16_t getAccelerationZ()
+        public int16_t getAccelerationZ()
         {
             i2c.readBytes(devAddr, MPU6050_RA_ACCEL_ZOUT_H, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
@@ -2289,7 +2291,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Temperature reading in 16-bit 2's complement format
         * @see MPU6050_RA_TEMP_OUT_H
         */
-        int16_t getTemperature()
+        public int16_t getTemperature()
         {
             i2c.readBytes(devAddr, MPU6050_RA_TEMP_OUT_H, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
@@ -2329,7 +2331,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getMotion6()
         * @see MPU6050_RA_GYRO_XOUT_H
         */
-        Vector3 getRotation()
+        public Vector3 getRotation()
         {
             Vector3 v;
             i2c.readBytes(devAddr, MPU6050_RA_GYRO_XOUT_H, 6, buffer);
@@ -2343,7 +2345,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getMotion6()
         * @see MPU6050_RA_GYRO_XOUT_H
         */
-        int16_t getRotationX()
+        public int16_t getRotationX()
         {
             i2c.readBytes(devAddr, MPU6050_RA_GYRO_XOUT_H, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
@@ -2353,7 +2355,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getMotion6()
         * @see MPU6050_RA_GYRO_YOUT_H
         */
-        int16_t getRotationY()
+        public int16_t getRotationY()
         {
             i2c.readBytes(devAddr, MPU6050_RA_GYRO_YOUT_H, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
@@ -2363,7 +2365,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see getMotion6()
         * @see MPU6050_RA_GYRO_ZOUT_H
         */
-        int16_t getRotationZ()
+        public int16_t getRotationZ()
         {
             i2c.readBytes(devAddr, MPU6050_RA_GYRO_ZOUT_H, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
@@ -2445,7 +2447,7 @@ namespace QuadroschrauberSharp.Hardware
         * @param position Starting position (0-23)
         * @return Byte read from register
         */
-        uint8_t getExternalSensorByte(int position)
+        public uint8_t getExternalSensorByte(int position)
         {
             return i2c.readByte(devAddr, MPU6050_RA_EXT_SENS_DATA_00 + position);
         }
@@ -2454,7 +2456,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Word read from register
         * @see getExternalSensorByte()
         */
-        uint16_t getExternalSensorWord(int position)
+        public uint16_t getExternalSensorWord(int position)
         {
             i2c.readBytes(devAddr, MPU6050_RA_EXT_SENS_DATA_00 + position, 2, buffer);
             return (uint16_t)((((uint16_t)buffer[0]) << 8) | buffer[1]);
@@ -2464,7 +2466,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Double word read from registers
         * @see getExternalSensorByte()
         */
-        uint32_t getExternalSensorDWord(int position)
+        public uint32_t getExternalSensorDWord(int position)
         {
             i2c.readBytes(devAddr, MPU6050_RA_EXT_SENS_DATA_00 + position, 4, buffer);
             return (uint32_t)((((uint32_t)buffer[0]) << 24) | (((uint32_t)buffer[1]) << 16) | (((uint16_t)buffer[2]) << 8) | buffer[3]);
@@ -2477,7 +2479,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_MOT_DETECT_STATUS
         * @see MPU6050_MOTION_MOT_XNEG_BIT
         */
-        bool getXNegMotionDetected()
+        public bool getXNegMotionDetected()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_MOT_DETECT_STATUS, MPU6050_MOTION_MOT_XNEG_BIT);
         }
@@ -2486,7 +2488,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_MOT_DETECT_STATUS
         * @see MPU6050_MOTION_MOT_XPOS_BIT
         */
-        bool getXPosMotionDetected()
+        public bool getXPosMotionDetected()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_MOT_DETECT_STATUS, MPU6050_MOTION_MOT_XPOS_BIT);
         }
@@ -2495,7 +2497,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_MOT_DETECT_STATUS
         * @see MPU6050_MOTION_MOT_YNEG_BIT
         */
-        bool getYNegMotionDetected()
+        public bool getYNegMotionDetected()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_MOT_DETECT_STATUS, MPU6050_MOTION_MOT_YNEG_BIT);
         }
@@ -2504,7 +2506,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_MOT_DETECT_STATUS
         * @see MPU6050_MOTION_MOT_YPOS_BIT
         */
-        bool getYPosMotionDetected()
+        public bool getYPosMotionDetected()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_MOT_DETECT_STATUS, MPU6050_MOTION_MOT_YPOS_BIT);
         }
@@ -2513,7 +2515,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_MOT_DETECT_STATUS
         * @see MPU6050_MOTION_MOT_ZNEG_BIT
         */
-        bool getZNegMotionDetected()
+        public bool getZNegMotionDetected()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_MOT_DETECT_STATUS, MPU6050_MOTION_MOT_ZNEG_BIT);
         }
@@ -2522,7 +2524,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_MOT_DETECT_STATUS
         * @see MPU6050_MOTION_MOT_ZPOS_BIT
         */
-        bool getZPosMotionDetected()
+        public bool getZPosMotionDetected()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_MOT_DETECT_STATUS, MPU6050_MOTION_MOT_ZPOS_BIT);
         }
@@ -2531,7 +2533,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_MOT_DETECT_STATUS
         * @see MPU6050_MOTION_MOT_ZRMOT_BIT
         */
-        bool getZeroMotionDetected()
+        public bool getZeroMotionDetected()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_MOT_DETECT_STATUS, MPU6050_MOTION_MOT_ZRMOT_BIT);
         }
@@ -2546,7 +2548,7 @@ namespace QuadroschrauberSharp.Hardware
         * @param data Byte to write
         * @see MPU6050_RA_I2C_SLV0_DO
         */
-        void setSlaveOutputByte(uint8_t num, uint8_t data)
+        public void setSlaveOutputByte(uint8_t num, uint8_t data)
         {
             if (num > 3) return;
             i2c.writeByte(devAddr, MPU6050_RA_I2C_SLV0_DO + num, data);
@@ -2562,7 +2564,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_I2C_MST_DELAY_CTRL
         * @see MPU6050_DELAYCTRL_DELAY_ES_SHADOW_BIT
         */
-        bool getExternalShadowDelayEnabled()
+        public bool getExternalShadowDelayEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_I2C_MST_DELAY_CTRL, MPU6050_DELAYCTRL_DELAY_ES_SHADOW_BIT);
         }
@@ -2572,7 +2574,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_I2C_MST_DELAY_CTRL
         * @see MPU6050_DELAYCTRL_DELAY_ES_SHADOW_BIT
         */
-        void setExternalShadowDelayEnabled(bool enabled)
+        public void setExternalShadowDelayEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_I2C_MST_DELAY_CTRL, MPU6050_DELAYCTRL_DELAY_ES_SHADOW_BIT, enabled);
         }
@@ -2594,7 +2596,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_I2C_MST_DELAY_CTRL
         * @see MPU6050_DELAYCTRL_I2C_SLV0_DLY_EN_BIT
         */
-        bool getSlaveDelayEnabled(uint8_t num)
+        public bool getSlaveDelayEnabled(uint8_t num)
         {
             // MPU6050_DELAYCTRL_I2C_SLV4_DLY_EN_BIT is 4, SLV3 is 3, etc.
             if (num > 4) return false;
@@ -2606,7 +2608,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_I2C_MST_DELAY_CTRL
         * @see MPU6050_DELAYCTRL_I2C_SLV0_DLY_EN_BIT
         */
-        void setSlaveDelayEnabled(uint8_t num, bool enabled)
+        public void setSlaveDelayEnabled(uint8_t num, bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_I2C_MST_DELAY_CTRL, num, enabled);
         }
@@ -2619,7 +2621,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_SIGNAL_PATH_RESET
         * @see MPU6050_PATHRESET_GYRO_RESET_BIT
         */
-        void resetGyroscopePath()
+        public void resetGyroscopePath()
         {
             i2c.writeBit(devAddr, MPU6050_RA_SIGNAL_PATH_RESET, MPU6050_PATHRESET_GYRO_RESET_BIT, true);
         }
@@ -2629,7 +2631,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_SIGNAL_PATH_RESET
         * @see MPU6050_PATHRESET_ACCEL_RESET_BIT
         */
-        void resetAccelerometerPath()
+        public void resetAccelerometerPath()
         {
             i2c.writeBit(devAddr, MPU6050_RA_SIGNAL_PATH_RESET, MPU6050_PATHRESET_ACCEL_RESET_BIT, true);
         }
@@ -2639,7 +2641,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_SIGNAL_PATH_RESET
         * @see MPU6050_PATHRESET_TEMP_RESET_BIT
         */
-        void resetTemperaturePath()
+        public void resetTemperaturePath()
         {
             i2c.writeBit(devAddr, MPU6050_RA_SIGNAL_PATH_RESET, MPU6050_PATHRESET_TEMP_RESET_BIT, true);
         }
@@ -2660,7 +2662,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_MOT_DETECT_CTRL
         * @see MPU6050_DETECT_ACCEL_ON_DELAY_BIT
         */
-        uint8_t getAccelerometerPowerOnDelay()
+        public uint8_t getAccelerometerPowerOnDelay()
         {
             return i2c.readBits(devAddr, MPU6050_RA_MOT_DETECT_CTRL, MPU6050_DETECT_ACCEL_ON_DELAY_BIT, MPU6050_DETECT_ACCEL_ON_DELAY_LENGTH);
         }
@@ -2670,7 +2672,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_MOT_DETECT_CTRL
         * @see MPU6050_DETECT_ACCEL_ON_DELAY_BIT
         */
-        void setAccelerometerPowerOnDelay(uint8_t delay)
+        public void setAccelerometerPowerOnDelay(uint8_t delay)
         {
             i2c.writeBits(devAddr, MPU6050_RA_MOT_DETECT_CTRL, MPU6050_DETECT_ACCEL_ON_DELAY_BIT, MPU6050_DETECT_ACCEL_ON_DELAY_LENGTH, delay);
         }
@@ -2700,7 +2702,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_MOT_DETECT_CTRL
         * @see MPU6050_DETECT_FF_COUNT_BIT
         */
-        uint8_t getFreefallDetectionCounterDecrement()
+        public uint8_t getFreefallDetectionCounterDecrement()
         {
             return i2c.readBits(devAddr, MPU6050_RA_MOT_DETECT_CTRL, MPU6050_DETECT_FF_COUNT_BIT, MPU6050_DETECT_FF_COUNT_LENGTH);
         }
@@ -2710,7 +2712,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_MOT_DETECT_CTRL
         * @see MPU6050_DETECT_FF_COUNT_BIT
         */
-        void setFreefallDetectionCounterDecrement(uint8_t decrement)
+        public void setFreefallDetectionCounterDecrement(uint8_t decrement)
         {
             i2c.writeBits(devAddr, MPU6050_RA_MOT_DETECT_CTRL, MPU6050_DETECT_FF_COUNT_BIT, MPU6050_DETECT_FF_COUNT_LENGTH, decrement);
         }
@@ -2737,7 +2739,7 @@ namespace QuadroschrauberSharp.Hardware
         * please refer to Registers 29 to 32.
         *
         */
-        uint8_t getMotionDetectionCounterDecrement()
+        public uint8_t getMotionDetectionCounterDecrement()
         {
             return i2c.readBits(devAddr, MPU6050_RA_MOT_DETECT_CTRL, MPU6050_DETECT_MOT_COUNT_BIT, MPU6050_DETECT_MOT_COUNT_LENGTH);
         }
@@ -2747,7 +2749,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_MOT_DETECT_CTRL
         * @see MPU6050_DETECT_MOT_COUNT_BIT
         */
-        void setMotionDetectionCounterDecrement(uint8_t decrement)
+        public void setMotionDetectionCounterDecrement(uint8_t decrement)
         {
             i2c.writeBits(devAddr, MPU6050_RA_MOT_DETECT_CTRL, MPU6050_DETECT_MOT_COUNT_BIT, MPU6050_DETECT_MOT_COUNT_LENGTH, decrement);
         }
@@ -2762,7 +2764,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_USER_CTRL
         * @see MPU6050_USERCTRL_FIFO_EN_BIT
         */
-        bool getFIFOEnabled()
+        public bool getFIFOEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_USER_CTRL, MPU6050_USERCTRL_FIFO_EN_BIT);
         }
@@ -2772,7 +2774,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_USER_CTRL
         * @see MPU6050_USERCTRL_FIFO_EN_BIT
         */
-        void setFIFOEnabled(bool enabled)
+        public void setFIFOEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_USER_CTRL, MPU6050_USERCTRL_FIFO_EN_BIT, enabled);
         }
@@ -2787,7 +2789,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_USER_CTRL
         * @see MPU6050_USERCTRL_I2C_MST_EN_BIT
         */
-        bool getI2CMasterModeEnabled()
+        public bool getI2CMasterModeEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_USER_CTRL, MPU6050_USERCTRL_I2C_MST_EN_BIT);
         }
@@ -2797,7 +2799,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_USER_CTRL
         * @see MPU6050_USERCTRL_I2C_MST_EN_BIT
         */
-        void setI2CMasterModeEnabled(bool enabled)
+        public void setI2CMasterModeEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_USER_CTRL, MPU6050_USERCTRL_I2C_MST_EN_BIT, enabled);
         }
@@ -2805,7 +2807,7 @@ namespace QuadroschrauberSharp.Hardware
         * If this is set, the primary SPI interface will be enabled in place of the
         * disabled primary I2C interface.
         */
-        void switchSPIEnabled(bool enabled)
+        public void switchSPIEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_USER_CTRL, MPU6050_USERCTRL_I2C_IF_DIS_BIT, enabled);
         }
@@ -2825,7 +2827,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_USER_CTRL
         * @see MPU6050_USERCTRL_I2C_MST_RESET_BIT
         */
-        void resetI2CMaster()
+        public void resetI2CMaster()
         {
             i2c.writeBit(devAddr, MPU6050_RA_USER_CTRL, MPU6050_USERCTRL_I2C_MST_RESET_BIT, true);
         }
@@ -2841,7 +2843,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_USER_CTRL
         * @see MPU6050_USERCTRL_SIG_COND_RESET_BIT
         */
-        void resetSensors()
+        public void resetSensors()
         {
             i2c.writeBit(devAddr, MPU6050_RA_USER_CTRL, MPU6050_USERCTRL_SIG_COND_RESET_BIT, true);
         }
@@ -2853,7 +2855,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_1
         * @see MPU6050_PWR1_DEVICE_RESET_BIT
         */
-        void reset()
+        public void reset()
         {
             i2c.writeBit(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_DEVICE_RESET_BIT, true);
         }
@@ -2868,7 +2870,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_1
         * @see MPU6050_PWR1_SLEEP_BIT
         */
-        bool getSleepEnabled()
+        public bool getSleepEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_SLEEP_BIT);
         }
@@ -2878,7 +2880,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_1
         * @see MPU6050_PWR1_SLEEP_BIT
         */
-        void setSleepEnabled(bool enabled)
+        public void setSleepEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_SLEEP_BIT, enabled);
         }
@@ -2890,7 +2892,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_1
         * @see MPU6050_PWR1_CYCLE_BIT
         */
-        bool getWakeCycleEnabled()
+        public bool getWakeCycleEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_CYCLE_BIT);
         }
@@ -2900,7 +2902,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_1
         * @see MPU6050_PWR1_CYCLE_BIT
         */
-        void setWakeCycleEnabled(bool enabled)
+        public void setWakeCycleEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_CYCLE_BIT, enabled);
         }
@@ -2915,7 +2917,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_1
         * @see MPU6050_PWR1_TEMP_DIS_BIT
         */
-        bool getTempSensorEnabled()
+        public bool getTempSensorEnabled()
         {
             return !i2c.readBitB(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_TEMP_DIS_BIT);// 1 is actually disabled here
         }
@@ -2929,7 +2931,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_1
         * @see MPU6050_PWR1_TEMP_DIS_BIT
         */
-        void setTempSensorEnabled(bool enabled)
+        public void setTempSensorEnabled(bool enabled)
         {
             // 1 is actually disabled here
             i2c.writeBit(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_TEMP_DIS_BIT, !enabled);
@@ -2940,7 +2942,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_PWR1_CLKSEL_BIT
         * @see MPU6050_PWR1_CLKSEL_LENGTH
         */
-        uint8_t getClockSource()
+        public uint8_t getClockSource()
         {
             return i2c.readBits(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_CLKSEL_BIT, MPU6050_PWR1_CLKSEL_LENGTH);
         }
@@ -2974,7 +2976,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_PWR1_CLKSEL_BIT
         * @see MPU6050_PWR1_CLKSEL_LENGTH
         */
-        void setClockSource(uint8_t source)
+        public void setClockSource(uint8_t source)
         {
             i2c.writeBits(devAddr, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_CLKSEL_BIT, MPU6050_PWR1_CLKSEL_LENGTH, source);
         }
@@ -3004,7 +3006,7 @@ namespace QuadroschrauberSharp.Hardware
         * @return Current wake frequency
         * @see MPU6050_RA_PWR_MGMT_2
         */
-        uint8_t getWakeFrequency()
+        public uint8_t getWakeFrequency()
         {
             return i2c.readBits(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_LP_WAKE_CTRL_BIT, MPU6050_PWR2_LP_WAKE_CTRL_LENGTH);
         }
@@ -3012,7 +3014,7 @@ namespace QuadroschrauberSharp.Hardware
         * @param frequency New wake frequency
         * @see MPU6050_RA_PWR_MGMT_2
         */
-        void setWakeFrequency(uint8_t frequency)
+        public void setWakeFrequency(uint8_t frequency)
         {
             i2c.writeBits(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_LP_WAKE_CTRL_BIT, MPU6050_PWR2_LP_WAKE_CTRL_LENGTH, frequency);
         }
@@ -3023,7 +3025,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_2
         * @see MPU6050_PWR2_STBY_XA_BIT
         */
-        bool getStandbyXAccelEnabled()
+        public bool getStandbyXAccelEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_XA_BIT);
         }
@@ -3033,7 +3035,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_2
         * @see MPU6050_PWR2_STBY_XA_BIT
         */
-        void setStandbyXAccelEnabled(bool enabled)
+        public void setStandbyXAccelEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_XA_BIT, enabled);
         }
@@ -3043,7 +3045,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_2
         * @see MPU6050_PWR2_STBY_YA_BIT
         */
-        bool getStandbyYAccelEnabled()
+        public bool getStandbyYAccelEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_YA_BIT);
         }
@@ -3053,7 +3055,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_2
         * @see MPU6050_PWR2_STBY_YA_BIT
         */
-        void setStandbyYAccelEnabled(bool enabled)
+        public void setStandbyYAccelEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_YA_BIT, enabled);
         }
@@ -3063,7 +3065,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_2
         * @see MPU6050_PWR2_STBY_ZA_BIT
         */
-        bool getStandbyZAccelEnabled()
+        public bool getStandbyZAccelEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_ZA_BIT);
         }
@@ -3073,7 +3075,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_2
         * @see MPU6050_PWR2_STBY_ZA_BIT
         */
-        void setStandbyZAccelEnabled(bool enabled)
+        public void setStandbyZAccelEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_ZA_BIT, enabled);
         }
@@ -3083,7 +3085,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_2
         * @see MPU6050_PWR2_STBY_XG_BIT
         */
-        bool getStandbyXGyroEnabled()
+        public bool getStandbyXGyroEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_XG_BIT);
         }
@@ -3093,7 +3095,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_2
         * @see MPU6050_PWR2_STBY_XG_BIT
         */
-        void setStandbyXGyroEnabled(bool enabled)
+        public void setStandbyXGyroEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_XG_BIT, enabled);
         }
@@ -3103,7 +3105,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_2
         * @see MPU6050_PWR2_STBY_YG_BIT
         */
-        bool getStandbyYGyroEnabled()
+        public bool getStandbyYGyroEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_YG_BIT);
         }
@@ -3113,7 +3115,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_2
         * @see MPU6050_PWR2_STBY_YG_BIT
         */
-        void setStandbyYGyroEnabled(bool enabled)
+        public void setStandbyYGyroEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_YG_BIT, enabled);
         }
@@ -3123,7 +3125,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_2
         * @see MPU6050_PWR2_STBY_ZG_BIT
         */
-        bool getStandbyZGyroEnabled()
+        public bool getStandbyZGyroEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_ZG_BIT);
         }
@@ -3133,7 +3135,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_RA_PWR_MGMT_2
         * @see MPU6050_PWR2_STBY_ZG_BIT
         */
-        void setStandbyZGyroEnabled(bool enabled)
+        public void setStandbyZGyroEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_ZG_BIT, enabled);
         }
@@ -3206,7 +3208,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_WHO_AM_I_BIT
         * @see MPU6050_WHO_AM_I_LENGTH
         */
-        uint8_t getDeviceID()
+        public uint8_t getDeviceID()
         {
             return i2c.readBits(devAddr, MPU6050_RA_WHO_AM_I, MPU6050_WHO_AM_I_BIT, MPU6050_WHO_AM_I_LENGTH);
         }
@@ -3219,7 +3221,7 @@ namespace QuadroschrauberSharp.Hardware
         * @see MPU6050_WHO_AM_I_BIT
         * @see MPU6050_WHO_AM_I_LENGTH
         */
-        void setDeviceID(uint8_t id)
+        public void setDeviceID(uint8_t id)
         {
             i2c.writeBits(devAddr, MPU6050_RA_WHO_AM_I, MPU6050_WHO_AM_I_BIT, MPU6050_WHO_AM_I_LENGTH, id);
         }
@@ -3232,206 +3234,206 @@ namespace QuadroschrauberSharp.Hardware
         {
             return i2c.readBit(devAddr, MPU6050_RA_XG_OFFS_TC, MPU6050_TC_OTP_BNK_VLD_BIT);
         }
-        void setOTPBankValid(bool enabled)
+        public void setOTPBankValid(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_XG_OFFS_TC, MPU6050_TC_OTP_BNK_VLD_BIT, enabled);
         }
-        int8_t getXGyroOffset()
+        public int8_t getXGyroOffset()
         {
             return (int8_t)i2c.readBits(devAddr, MPU6050_RA_XG_OFFS_TC, MPU6050_TC_OFFSET_BIT, MPU6050_TC_OFFSET_LENGTH);
         }
-        void setXGyroOffset(int8_t offset)
+        public void setXGyroOffset(int8_t offset)
         {
             i2c.writeBits(devAddr, MPU6050_RA_XG_OFFS_TC, MPU6050_TC_OFFSET_BIT, MPU6050_TC_OFFSET_LENGTH, offset);
         }
 
         // YG_OFFS_TC register
 
-        int8_t getYGyroOffset()
+        public int8_t getYGyroOffset()
         {
             return (int8_t)i2c.readBits(devAddr, MPU6050_RA_YG_OFFS_TC, MPU6050_TC_OFFSET_BIT, MPU6050_TC_OFFSET_LENGTH);
         }
-        void setYGyroOffset(int8_t offset)
+        public void setYGyroOffset(int8_t offset)
         {
             i2c.writeBits(devAddr, MPU6050_RA_YG_OFFS_TC, MPU6050_TC_OFFSET_BIT, MPU6050_TC_OFFSET_LENGTH, offset);
         }
 
         // ZG_OFFS_TC register
 
-        int8_t getZGyroOffset()
+        public int8_t getZGyroOffset()
         {
             return unchecked((sbyte)i2c.readBits(devAddr, MPU6050_RA_ZG_OFFS_TC, MPU6050_TC_OFFSET_BIT, MPU6050_TC_OFFSET_LENGTH));
         }
-        void setZGyroOffset(int8_t offset)
+        public void setZGyroOffset(int8_t offset)
         {
             i2c.writeBits(devAddr, MPU6050_RA_ZG_OFFS_TC, MPU6050_TC_OFFSET_BIT, MPU6050_TC_OFFSET_LENGTH, offset);
         }
 
         // X_FINE_GAIN register
 
-        int8_t getXFineGain()
+        public int8_t getXFineGain()
         {
             return unchecked((sbyte)i2c.readByte(devAddr, MPU6050_RA_X_FINE_GAIN));
         }
-        void setXFineGain(int8_t gain)
+        public void setXFineGain(int8_t gain)
         {
             i2c.writeByte(devAddr, MPU6050_RA_X_FINE_GAIN, gain);
         }
 
         // Y_FINE_GAIN register
 
-        int8_t getYFineGain()
+        public int8_t getYFineGain()
         {
             return unchecked((sbyte)i2c.readByte(devAddr, MPU6050_RA_Y_FINE_GAIN));
         }
-        void setYFineGain(int8_t gain)
+        public void setYFineGain(int8_t gain)
         {
             i2c.writeByte(devAddr, MPU6050_RA_Y_FINE_GAIN, gain);
         }
 
         // Z_FINE_GAIN register
 
-        int8_t getZFineGain()
+        public int8_t getZFineGain()
         {
             return unchecked((sbyte)i2c.readByte(devAddr, MPU6050_RA_Z_FINE_GAIN));
         }
-        void setZFineGain(int8_t gain)
+        public void setZFineGain(int8_t gain)
         {
             i2c.writeByte(devAddr, MPU6050_RA_Z_FINE_GAIN, gain);
         }
 
         // XA_OFFS_* registers
 
-        int16_t getXAccelOffset()
+        public int16_t getXAccelOffset()
         {
             i2c.readBytes(devAddr, MPU6050_RA_XA_OFFS_H, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
         }
-        void setXAccelOffset(int16_t offset)
+        public void setXAccelOffset(int16_t offset)
         {
             i2c.writeWord(devAddr, MPU6050_RA_XA_OFFS_H, offset);
         }
 
         // YA_OFFS_* register
 
-        int16_t getYAccelOffset()
+        public int16_t getYAccelOffset()
         {
             i2c.readBytes(devAddr, MPU6050_RA_YA_OFFS_H, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
         }
-        void setYAccelOffset(int16_t offset)
+        public void setYAccelOffset(int16_t offset)
         {
             i2c.writeWord(devAddr, MPU6050_RA_YA_OFFS_H, offset);
         }
 
         // ZA_OFFS_* register
 
-        int16_t getZAccelOffset()
+        public int16_t getZAccelOffset()
         {
             i2c.readBytes(devAddr, MPU6050_RA_ZA_OFFS_H, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
         }
-        void setZAccelOffset(int16_t offset)
+        public void setZAccelOffset(int16_t offset)
         {
             i2c.writeWord(devAddr, MPU6050_RA_ZA_OFFS_H, offset);
         }
 
         // XG_OFFS_USR* registers
 
-        int16_t getXGyroOffsetUser()
+        public int16_t getXGyroOffsetUser()
         {
             i2c.readBytes(devAddr, MPU6050_RA_XG_OFFS_USRH, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
         }
-        void setXGyroOffsetUser(int16_t offset)
+        public void setXGyroOffsetUser(int16_t offset)
         {
             i2c.writeWord(devAddr, MPU6050_RA_XG_OFFS_USRH, offset);
         }
 
         // YG_OFFS_USR* register
 
-        int16_t getYGyroOffsetUser()
+        public int16_t getYGyroOffsetUser()
         {
             i2c.readBytes(devAddr, MPU6050_RA_YG_OFFS_USRH, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
         }
-        void setYGyroOffsetUser(int16_t offset)
+        public void setYGyroOffsetUser(int16_t offset)
         {
             i2c.writeWord(devAddr, MPU6050_RA_YG_OFFS_USRH, offset);
         }
 
         // ZG_OFFS_USR* register
 
-        int16_t getZGyroOffsetUser()
+        public int16_t getZGyroOffsetUser()
         {
             i2c.readBytes(devAddr, MPU6050_RA_ZG_OFFS_USRH, 2, buffer);
             return (short)((((int16_t)buffer[0]) << 8) | buffer[1]);
         }
-        void setZGyroOffsetUser(int16_t offset)
+        public void setZGyroOffsetUser(int16_t offset)
         {
             i2c.writeWord(devAddr, MPU6050_RA_ZG_OFFS_USRH, offset);
         }
 
         // INT_ENABLE register (DMP functions)
 
-        bool getIntPLLReadyEnabled()
+        public bool getIntPLLReadyEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_PLL_RDY_INT_BIT);
         }
-        void setIntPLLReadyEnabled(bool enabled)
+        public void setIntPLLReadyEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_PLL_RDY_INT_BIT, enabled);
         }
-        bool getIntDMPEnabled()
+        public bool getIntDMPEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_DMP_INT_BIT);
         }
-        void setIntDMPEnabled(bool enabled)
+        public void setIntDMPEnabled(bool enabled)
         {
             i2c.writeBit(devAddr, MPU6050_RA_INT_ENABLE, MPU6050_INTERRUPT_DMP_INT_BIT, enabled);
         }
 
         // DMP_INT_STATUS
 
-        bool getDMPInt5Status()
+        public bool getDMPInt5Status()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_DMP_INT_STATUS, MPU6050_DMPINT_5_BIT);
         }
-        bool getDMPInt4Status()
+        public bool getDMPInt4Status()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_DMP_INT_STATUS, MPU6050_DMPINT_4_BIT);
         }
-        bool getDMPInt3Status()
+        public bool getDMPInt3Status()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_DMP_INT_STATUS, MPU6050_DMPINT_3_BIT);
         }
-        bool getDMPInt2Status()
+        public bool getDMPInt2Status()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_DMP_INT_STATUS, MPU6050_DMPINT_2_BIT);
         }
-        bool getDMPInt1Status()
+        public bool getDMPInt1Status()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_DMP_INT_STATUS, MPU6050_DMPINT_1_BIT);
         }
-        bool getDMPInt0Status()
+        public bool getDMPInt0Status()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_DMP_INT_STATUS, MPU6050_DMPINT_0_BIT);
         }
 
         // INT_STATUS register (DMP functions)
 
-        bool getIntPLLReadyStatus()
+        public bool getIntPLLReadyStatus()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_STATUS, MPU6050_INTERRUPT_PLL_RDY_INT_BIT);
         }
-        bool getIntDMPStatus()
+        public bool getIntDMPStatus()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_INT_STATUS, MPU6050_INTERRUPT_DMP_INT_BIT);
         }
 
         // USER_CTRL register (DMP functions)
 
-        bool getDMPEnabled()
+        public bool getDMPEnabled()
         {
             return i2c.readBitB(devAddr, MPU6050_RA_USER_CTRL, MPU6050_USERCTRL_DMP_EN_BIT);
         }
@@ -3439,7 +3441,7 @@ namespace QuadroschrauberSharp.Hardware
         {
             i2c.writeBit(devAddr, MPU6050_RA_USER_CTRL, MPU6050_USERCTRL_DMP_EN_BIT, enabled);
         }
-        void resetDMP()
+        public void resetDMP()
         {
             i2c.writeBit(devAddr, MPU6050_RA_USER_CTRL, MPU6050_USERCTRL_DMP_RESET_BIT, true);
         }

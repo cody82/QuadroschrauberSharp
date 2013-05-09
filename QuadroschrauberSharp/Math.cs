@@ -9,8 +9,19 @@ using int8_t = System.SByte;
 using uint16_t = System.UInt16;
 using int16_t = System.Int16;
 
-namespace QuadroschrauberSharp.Hardware
+namespace QuadroschrauberSharp
 {
+    public static class MathUtil
+    {
+
+        public static T Clamp<T>(this T val, T min, T max) where T : IComparable<T>
+        {
+            if (val.CompareTo(min) < 0) return min;
+            else if (val.CompareTo(max) > 0) return max;
+            else return val;
+        }
+    }
+
     public struct Quaternion {
         public float w;
         public float x;
@@ -135,6 +146,26 @@ public struct VectorFloat {
         public float z;
 
 
+    public static VectorFloat operator *(VectorFloat v, float f)
+    {
+        return new VectorFloat(v.x * f, v.y * f, v.z * f);
+    }
+    public static VectorFloat operator /(VectorFloat v, float f)
+    {
+        return new VectorFloat(v.x / f, v.y / f, v.z / f);
+    }
+    public static VectorFloat operator *(VectorFloat v1, VectorFloat v2)
+    {
+        return new VectorFloat(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
+    }
+    public static VectorFloat operator +(VectorFloat v1, VectorFloat v2)
+    {
+        return new VectorFloat(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+    }
+    public static VectorFloat operator -(VectorFloat v1, VectorFloat v2)
+    {
+        return new VectorFloat(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+    }
         public VectorFloat(float nx, float ny, float nz)
         {
             x = nx;

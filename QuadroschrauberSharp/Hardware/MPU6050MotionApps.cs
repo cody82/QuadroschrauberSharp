@@ -45,6 +45,8 @@ using uint16_t = System.UInt16;
 using int16_t = System.Int16;
 using int32_t = System.Int32;
 
+using QuadroschrauberSharp;
+
 namespace QuadroschrauberSharp.Hardware
 {
     public partial class MPU6050
