@@ -44,6 +44,7 @@
 
 	    var TelemetryCounter = 0;
 	    var Socket;
+	    var ControlSocket;
 	    var Smoothie1;
 	    var Smoothie2;
 	    var Smoothie3;
@@ -68,7 +69,7 @@
 
 	        /*$.get('/control/' + (power / 1000.0) + '?format=json', function (data2) {
 	        });*/
-	        Socket.send(JSON.stringify({ Throttle: power }));
+	        ControlSocket.send(JSON.stringify({ Throttle: power }));
 	    }
 
 	    $(function () {
@@ -183,6 +184,8 @@
 	            //message('Socket Status: ' + socket.readyState + ' (Closed)');
 	        }
 
+
+	        ControlSocket = new WebSocket("ws://" + document.location.hostname + ":8081/control");
 	        //myMethod();
 	        //setInterval(myMethod, 50);
 
@@ -342,9 +345,9 @@
                                 </ul>
                             </li>
                         </ul>
-                        <form class="navbar-form pull-right">
-                            <input class="span2" type="text" placeholder="Email">
-                            <input class="span2" type="password" placeholder="Password">
+                        <form class="navbar-form pull-right" action="/auth/credentials">
+                            <input name="UserName" class="span2" type="text" placeholder="Username">
+                            <input name="Password" class="span2" type="password" placeholder="Password">
                             <button type="submit" class="btn">Sign in</button>
                         </form>
                     </div><!--/.nav-collapse -->

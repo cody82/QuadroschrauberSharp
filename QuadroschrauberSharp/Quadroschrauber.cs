@@ -22,6 +22,8 @@ namespace QuadroschrauberSharp
         public MPU6050 mpu;
         public Controller Controller = new Controller();
 
+        public Spektrum Remote;
+
         public Quadroschrauber()
         {
             Instance = this;
@@ -35,6 +37,8 @@ namespace QuadroschrauberSharp
             MotorBack = new MotorServoBlaster(7);
             MotorLeft = new MotorServoBlaster(5);
             MotorRight = new MotorServoBlaster(6);
+
+            Remote = new Spektrum();
 
             mpu = new MPU6050(I2C, 0x69);
 
@@ -135,7 +139,8 @@ byte[] fifoBuffer = new byte[64]; // FIFO storage buffer
             float dtime = (float)microseconds / 1000000.0f;
             var m = mpu.getMotion6();
             GetSensorData(dtime, m, SensorInput);
-            Controller.Update(dtime, new RemoteInput() { active = true, throttle = control.Throttle }, SensorInput, MotorOutput);
+            
+            Controller.Update(dtime, Remote.Input, SensorInput, MotorOutput);
             SetMotors(MotorOutput);
 
             queuecounter += microseconds;
@@ -161,7 +166,12 @@ byte[] fifoBuffer = new byte[64]; // FIFO storage buffer
                     MotorBack = MotorOutput.motor_back,
                     MotorLeft = MotorOutput.motor_left,
                     MotorRight = MotorOutput.motor_right,
-                    Load = GetSystemLoad()
+                    Load = GetSystemLoad(),
+                    RemoteActive = Remote.Input.active,
+                    RemotePitch = Remote.Input.pitch,
+                    RemoteRoll = Remote.Input.roll,
+                    RemoteThrottle = Remote.Input.throttle,
+                    RemoteYaw = Remote.Input.yaw
                 };
                 var sessions = service.WebSocket.GetAllSessions();
                 if (sessions.Any())
