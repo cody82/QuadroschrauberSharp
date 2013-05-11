@@ -45,24 +45,11 @@
 	    var TelemetryCounter = 0;
 	    var Socket;
 	    var ControlSocket;
-	    var Smoothie1;
-	    var Smoothie2;
 	    var Smoothie3;
-	    var Smoothie4;
-	    var Line1;
-	    var Line2;
-	    var Line3;
-
-	    var Line4;
-	    var Line5;
-	    var Line6;
-
-	    var Line7;
-
-	    var LineMotorLeft;
-	    var LineMotorRight;
-	    var LineMotorFront;
-	    var LineMotorBack;
+        
+	    var DataNames = [];
+	    var DataNamesDisplayed = [];
+	    var DataLines = {};
 
 	    function refreshSwatch() {
 	        var power = $("#slider").slider("value") / 1000.0;
@@ -103,48 +90,10 @@
 	            change: refreshSwatch
 	        });
 
-	        Smoothie1 = new SmoothieChart();
-	        Smoothie1.streamTo(document.getElementById("smoothie1"));
-
-	        Line1 = new TimeSeries();
-	        Smoothie1.addTimeSeries(Line1, { strokeStyle: 'rgb(255, 0, 0)', lineWidth: 1 });
-	        Line2 = new TimeSeries();
-	        Smoothie1.addTimeSeries(Line2, { strokeStyle: 'rgb(0, 255, 0)', lineWidth: 1 });
-	        Line3 = new TimeSeries();
-	        Smoothie1.addTimeSeries(Line3, { strokeStyle: 'rgb(0, 0, 255)', lineWidth: 1 });
-
-
-	        Smoothie2 = new SmoothieChart();
-	        Smoothie2.streamTo(document.getElementById("smoothie2"));
-
-	        Line4 = new TimeSeries();
-	        Smoothie2.addTimeSeries(Line4, { strokeStyle: 'rgb(255, 0, 0)', lineWidth: 1 });
-	        Line5 = new TimeSeries();
-	        Smoothie2.addTimeSeries(Line5, { strokeStyle: 'rgb(0, 255, 0)', lineWidth: 1 });
-	        Line6 = new TimeSeries();
-	        Smoothie2.addTimeSeries(Line6, { strokeStyle: 'rgb(0, 0, 255)', lineWidth: 1 });
-
 
 
 	        Smoothie3 = new SmoothieChart();
 	        Smoothie3.streamTo(document.getElementById("smoothie3"));
-
-	        Line7 = new TimeSeries();
-	        Smoothie3.addTimeSeries(Line7, { strokeStyle: 'rgb(255, 0, 0)', lineWidth: 1 });
-
-
-	        Smoothie4 = new SmoothieChart();
-	        Smoothie4.streamTo(document.getElementById("smoothie4"));
-
-
-	        LineMotorLeft = new TimeSeries();
-	        Smoothie4.addTimeSeries(LineMotorLeft, { strokeStyle: 'rgb(255, 0, 0)', lineWidth: 1 });
-	        LineMotorRight = new TimeSeries();
-	        Smoothie4.addTimeSeries(LineMotorRight, { strokeStyle: 'rgb(0, 255, 0)', lineWidth: 1 });
-	        LineMotorFront = new TimeSeries();
-	        Smoothie4.addTimeSeries(LineMotorFront, { strokeStyle: 'rgb(0, 0, 255)', lineWidth: 1 });
-	        LineMotorBack = new TimeSeries();
-	        Smoothie4.addTimeSeries(LineMotorBack, { strokeStyle: 'rgb(255, 255, 0)', lineWidth: 1 });
 
 
 	        Socket = new WebSocket("ws://" + document.location.hostname + ":8081/");
@@ -163,21 +112,37 @@
 	            var az = data.AccelZ;
 	            var hz = data.Hz;
 	            var ticks = data.Ticks;
+                
+	            var key;
+	            for (key in data) {
+	                if (data.hasOwnProperty(key)) {
+	                    if (DataNames.indexOf(key) == -1) {
+	                        DataNames.push(key);
+	                        $("#DataNames").append("<input type=\"checkbox\" name=\"" + "NameCheckBox" + "\" value=\"" + key + "\">" + key + "</input>");
+	                        $('input[name="NameCheckBox"]').click(function () {
+	                            if ($(this).is(':checked')) {
+	                                //alert(this.value);
+	                                if (DataNamesDisplayed.indexOf(this.value) == -1) {
+	                                    DataNamesDisplayed.push(this.value);
+	                                    var line = new TimeSeries();
+	                                    Smoothie3.addTimeSeries(line, { strokeStyle: 'rgb(' + Math.floor(Math.random() * 256) + ', ' + Math.floor(Math.random() * 256) + ', ' + Math.floor(Math.random() * 256) + ')', lineWidth: 1 });
+	                                    DataLines[this.value] = line;
+	                                }
+	                            } else {
+	                                if (DataNamesDisplayed.indexOf(this.value) != -1) {
+	                                    DataNamesDisplayed.splice(DataNamesDisplayed.indexOf(this.value), 1);
+	                                    Smoothie3.removeTimeSeries(DataLines[this.value]);
+	                                    //DataLines.splice(DataLines.indexOf(this.value), 1);
+	                                }
+	                            }
+	                        });
+	                    }
 
-	            Line1.append(new Date().getTime(), gx);
-	            Line2.append(new Date().getTime(), gy);
-	            Line3.append(new Date().getTime(), gz);
-
-	            Line4.append(new Date().getTime(), ax);
-	            Line5.append(new Date().getTime(), ay);
-	            Line6.append(new Date().getTime(), az);
-
-	            Line7.append(new Date().getTime(), hz);
-
-	            LineMotorLeft.append(new Date().getTime(), data.MotorLeft);
-	            LineMotorRight.append(new Date().getTime(), data.MotorRight);
-	            LineMotorFront.append(new Date().getTime(), data.MotorFront);
-	            LineMotorBack.append(new Date().getTime(), data.MotorBack);
+	                    if (DataLines.hasOwnProperty(key)) {
+	                        DataLines[key].append(new Date().getTime(), data[key]);
+	                    }
+	                }
+	            }
 	        }
 
 	        Socket.onclose = function () {
@@ -186,124 +151,6 @@
 
 
 	        ControlSocket = new WebSocket("ws://" + document.location.hostname + ":8081/control");
-	        //myMethod();
-	        //setInterval(myMethod, 50);
-
-            /*
-	        var data = [], data_gy = [], data_gz = []
-                totalPoints = 300;
-
-                var data_ax = [], data_ay = [], data_az = [];
-                var data_hz = [];
-
-	        var updateInterval = 50;
-	        $("#updateInterval").val(updateInterval).change(function () {
-	            var v = $(this).val();
-	            if (v && !isNaN(+v)) {
-	                updateInterval = +v;
-	                if (updateInterval < 1) {
-	                    updateInterval = 1;
-	                } else if (updateInterval > 2000) {
-	                    updateInterval = 2000;
-	                }
-	                $(this).val("" + updateInterval);
-	            }
-	        });
-
-	        var plot = $.plot("#placeholder", [], {
-	            series: {
-	                shadowSize: 0	// Drawing is faster without shadows
-	            },
-	            yaxis: {
-	            },
-	            xaxis: {
-	                show: true
-	            }
-	        });
-
-	        var plot2 = $.plot("#placeholder2", [], {
-	            series: {
-	                shadowSize: 0	// Drawing is faster without shadows
-	            },
-	            yaxis: {
-	            },
-	            xaxis: {
-	                show: true
-	            }
-	        });
-
-	        var plot3 = $.plot("#placeholder3", [], {
-	            series: {
-	                shadowSize: 0	// Drawing is faster without shadows
-	            },
-	            yaxis: {
-	            },
-	            xaxis: {
-	                show: true
-	            }
-	        });
-
-
-
-
-	        function update() {
-
-	            $.get('/telemetry/' + TelemetryCounter + '?format=json', function (data2) {
-	                var list = data2.List;
-                    
-	                $(list).each(function (i) {
-	                    var gx = this.GyroX;
-	                    var gy = this.GyroY;
-	                    var gz = this.GyroZ;
-	                    var ax = this.AccelX;
-	                    var ay = this.AccelY;
-	                    var az = this.AccelZ;
-	                    var hz = this.Hz;
-	                    var ticks = this.Ticks;
-
-	                    if (ticks >= TelemetryCounter)
-	                        TelemetryCounter = ticks + 1;
-	                    data.push([ticks, gx]);
-	                    data_gy.push([ticks, gy]);
-	                    data_gz.push([ticks, gz]);
-	                    data_ax.push([ticks, ax]);
-	                    data_ay.push([ticks, ay]);
-	                    data_az.push([ticks, az]);
-	                    data_hz.push([ticks, hz]);
-	                });
-	                if (data.length > totalPoints)
-	                    data = data.slice(data.length - totalPoints);
-	                if (data_gy.length > totalPoints)
-	                    data_gy = data_gy.slice(data_gy.length - totalPoints);
-	                if (data_gz.length > totalPoints)
-	                    data_gz = data_gz.slice(data_gz.length - totalPoints);
-
-	                if (data_ax.length > totalPoints)
-	                    data_ax = data_ax.slice(data_ax.length - totalPoints);
-	                if (data_ay.length > totalPoints)
-	                    data_ay = data_ay.slice(data_ay.length - totalPoints);
-	                if (data_az.length > totalPoints)
-	                    data_az = data_az.slice(data_az.length - totalPoints);
-
-	                if (data_hz.length > totalPoints)
-	                    data_hz = data_hz.slice(data_hz.length - totalPoints);
-
-	                plot.setData([data, data_gy, data_gz]);
-	                plot2.setData([data_ax, data_ay, data_az]);
-	                plot3.setData([data_hz]);
-
-	                plot.setupGrid();
-	                plot.draw();
-	                plot2.setupGrid();
-	                plot2.draw();
-	                plot3.setupGrid();
-	                plot3.draw();
-	                setTimeout(update, updateInterval);
-	            });
-
-	        }
-
-	        update();*/
 
 	    });
 
@@ -357,46 +204,14 @@
 
         
 	<div id="content">
-                    <h2>MPU-6050 Gyroscope</h2>
-        <canvas id="smoothie1" width="600" height="200"></canvas>
-                    <h2>MPU-6050 Accelerometer</h2>
-        <canvas id="smoothie2" width="600" height="200"></canvas>
-                    <h2>Update rate [Hz]</h2>
-        <canvas id="smoothie3" width="600" height="200"></canvas>
-                    <h2>Motors</h2>
-        <canvas id="smoothie4" width="600" height="200"></canvas>
+	    <div id="DataNames">
+        </div>
+                    <h2>Scope</h2>
+        <canvas id="smoothie3" width="800" height="400"></canvas>
         
-        <!--
-        <h2 class="demoHeaders">Front Motor</h2>
-        <div id="progress_front"></div>
-        <h2 class="demoHeaders">Back Motor</h2>
-        <div id="progress_back"></div>
-        <h2 class="demoHeaders">Left Motor</h2>
-        <div id="progress_left"></div>
-        <h2 class="demoHeaders">Right Motor</h2>
-        <div id="progress_right"></div>
-        -->
 <h2 class="demoHeaders">Throttle</h2>
 <div id="slider"></div>
 
-        <!--
-                    <h2>MPU-6050 Gyroscope</h2>
-		<div class="demo-container">
-			<div id="placeholder" class="demo-placeholder"></div>
-		</div>
-        
-                    <h2>MPU-6050 Accelerometer</h2>
-		<div class="demo-container">
-			<div id="placeholder2" class="demo-placeholder"></div>
-		</div>
-                    <h2>Update rate [Hz]</h2>
-		<div class="demo-container">
-			<div id="placeholder3" class="demo-placeholder"></div>
-		</div>
-		<p>You can update a chart periodically to get a real-time effect by using a timer to insert the new data in the plot and redraw it.</p>
-
-		<p>Time between updates: <input id="updateInterval" type="text" value="" style="text-align: right; width:5em"> milliseconds</p>
-        -->
 	</div>
 
 
