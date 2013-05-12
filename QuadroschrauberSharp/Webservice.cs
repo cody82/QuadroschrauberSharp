@@ -55,7 +55,8 @@ namespace QuadroschrauberSharp
         public bool RemoteActive { get; set; }
     }
 
-    [Route("/config/")]
+    [Authenticate]
+    [Route("/setconfig/")]
     public class ControllerConfig : IReturn<ControllerConfig>
     {
         //public string Type { get{return "ControllerConfig";} set {} }
@@ -225,7 +226,7 @@ namespace QuadroschrauberSharp
             return ControllerConfig.Get(q);
         }
 
-        public ControllerConfig Get(ControllerConfig request)
+        public ControllerConfig Post(ControllerConfig request)
         {
             Quadroschrauber q = Quadroschrauber.Instance;
 

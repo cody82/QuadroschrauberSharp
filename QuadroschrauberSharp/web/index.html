@@ -77,6 +77,16 @@
 	            }
 	        });
 
+	        $("#SetConfigButton").click(function () {
+	            var config = {};
+
+	            $("#ControllerConfig p input").each(function () {
+	                config[this.name] = this.value;
+	            });
+
+	            $.post('/setconfig/?format=json', config);
+	        });
+
 	        $("#progress_front").progressbar({
 	            value: 20
 	        });
@@ -222,6 +232,7 @@
         
 	    <div id="ControllerConfig">
         </div>
+        <button id="SetConfigButton" class="btn" type="button">Set</button>
 	</div>
 
 
