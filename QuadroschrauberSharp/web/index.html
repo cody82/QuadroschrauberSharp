@@ -69,6 +69,14 @@
 	        });
 
 
+	        $.get('/config/?format=json', function (config) {
+	            for (key in config) {
+	                if (config.hasOwnProperty(key)) {
+	                    $("#ControllerConfig").append("<p>"+key+"<input type=\"text\" name=\"" + key + "\" value=\"" + config[key] + "\">" + "" + "</input></p>");
+	                }
+	            }
+	        });
+
 	        $("#progress_front").progressbar({
 	            value: 20
 	        });
@@ -211,7 +219,9 @@
         
 <h2 class="demoHeaders">Throttle</h2>
 <div id="slider"></div>
-
+        
+	    <div id="ControllerConfig">
+        </div>
 	</div>
 
 

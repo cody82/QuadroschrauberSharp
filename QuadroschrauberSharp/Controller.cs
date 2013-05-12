@@ -12,15 +12,15 @@ namespace QuadroschrauberSharp
         {
         }
 
-        public float roll;
-        public float pitch;
-        public float yaw;
-        public float throttle;
+        public float roll  { get; set; }
+        public float pitch  { get; set; }
+        public float yaw { get; set; }
+        public float throttle { get; set; }
 
-        public bool active;
+        public bool active { get; set; }
 
-        public bool switch1;
-        public bool switch2;
+        public bool switch1 { get; set; }
+        public bool switch2 { get; set; }
     }
 
     public class SensorInput

@@ -139,8 +139,16 @@ byte[] fifoBuffer = new byte[64]; // FIFO storage buffer
             float dtime = (float)microseconds / 1000000.0f;
             var m = mpu.getMotion6();
             GetSensorData(dtime, m, SensorInput);
-            
-            Controller.Update(dtime, Remote.Input, SensorInput, MotorOutput);
+
+            if (Remote.Input.active)
+            {
+                // RC has higher priority than web-interface
+                Controller.Update(dtime, Remote.Input, SensorInput, MotorOutput);
+            }
+            else
+            {
+                Controller.Update(dtime, control, SensorInput, MotorOutput);
+            }
             SetMotors(MotorOutput);
 
             queuecounter += microseconds;
@@ -253,6 +261,7 @@ byte[] fifoBuffer = new byte[64]; // FIFO storage buffer
 
         internal void Control(ControlRequest request)
         {
+            request.active = true;
             control = request;
         }
     }

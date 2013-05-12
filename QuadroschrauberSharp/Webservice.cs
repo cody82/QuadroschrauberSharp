@@ -23,9 +23,9 @@ namespace QuadroschrauberSharp
 
     [Authenticate]
     [Route("/control/{Throttle}")]
-    public class ControlRequest : IReturn<ControlResult>
+    public class ControlRequest : RemoteInput, IReturn<ControlResult>
     {
-        public float Throttle { get; set; }
+        //public float Throttle { get; set; }
     }
 
     public class ControlResult
@@ -34,6 +34,7 @@ namespace QuadroschrauberSharp
 
     public class Telemetry
     {
+        //public string Type { get { return "Telemetry"; } set { } }
         public long Ticks { get; set; }
         public float GyroX { get; set; }
         public float GyroY { get; set; }
@@ -52,6 +53,119 @@ namespace QuadroschrauberSharp
         public float RemoteRoll { get; set; }
         public float RemoteThrottle { get; set; }
         public bool RemoteActive { get; set; }
+    }
+
+    [Route("/config/")]
+    public class ControllerConfig : IReturn<ControllerConfig>
+    {
+        //public string Type { get{return "ControllerConfig";} set {} }
+        public long Ticks { get; set; }
+        public float GainX { get; set; }
+        public float GainY { get; set; }
+        public float GainZ { get; set; }
+        public float RemoteGainX { get; set; }
+        public float RemoteGainY { get; set; }
+        public float RemoteGainZ { get; set; }
+        public float InnerPX { get; set; }
+        public float InnerPY { get; set; }
+        public float InnerPZ { get; set; }
+        public float InnerIX { get; set; }
+        public float InnerIY { get; set; }
+        public float InnerIZ { get; set; }
+        public float InnerImaxX { get; set; }
+        public float InnerImaxY { get; set; }
+        public float InnerImaxZ { get; set; }
+        public float InnerDX { get; set; }
+        public float InnerDY { get; set; }
+        public float InnerDZ { get; set; }
+        public float OuterPX { get; set; }
+        public float OuterPY { get; set; }
+        public float OuterPZ { get; set; }
+        public float OuterIX { get; set; }
+        public float OuterIY { get; set; }
+        public float OuterIZ { get; set; }
+        public float OuterImaxX { get; set; }
+        public float OuterImaxY { get; set; }
+        public float OuterImaxZ { get; set; }
+        public float OuterDX { get; set; }
+        public float OuterDY { get; set; }
+        public float OuterDZ { get; set; }
+
+        public static ControllerConfig Get(Quadroschrauber q)
+        {
+            Controller c = q.Controller;
+
+            return new ControllerConfig()
+            {
+                Ticks = Environment.TickCount,
+                GainX = c.gain.x,
+                GainY = c.gain.y,
+                GainZ = c.gain.z,
+                RemoteGainX = c.remote_gain.x,
+                RemoteGainY = c.remote_gain.y,
+                RemoteGainZ = c.remote_gain.z,
+                InnerPX = c.inner.P.x,
+                InnerPY = c.inner.P.y,
+                InnerPZ = c.inner.P.z,
+                InnerIX = c.inner.I.x,
+                InnerIY = c.inner.I.y,
+                InnerIZ = c.inner.I.z,
+                InnerImaxX = c.inner.I_max.x,
+                InnerImaxY = c.inner.I_max.y,
+                InnerImaxZ = c.inner.I_max.z,
+                InnerDX = c.inner.D.x,
+                InnerDY = c.inner.D.y,
+                InnerDZ = c.inner.D.z,
+                OuterPX = c.outer.P.x,
+                OuterPY = c.outer.P.y,
+                OuterPZ = c.outer.P.z,
+                OuterIX = c.outer.I.x,
+                OuterIY = c.outer.I.y,
+                OuterIZ = c.outer.I.z,
+                OuterImaxX = c.outer.I_max.x,
+                OuterImaxY = c.outer.I_max.y,
+                OuterImaxZ = c.outer.I_max.z,
+                OuterDX = c.outer.D.x,
+                OuterDY = c.outer.D.y,
+                OuterDZ = c.outer.D.z
+            };
+        }
+
+        public void Set(Quadroschrauber q)
+        {
+            Controller c = q.Controller;
+
+            c.gain.x = GainX;
+            c.gain.y = GainY;
+            c.gain.z = GainZ;
+            c.remote_gain.x = RemoteGainX;
+            c.remote_gain.y = RemoteGainY;
+            c.remote_gain.z = RemoteGainZ;
+            c.inner.P.x = InnerPX;
+            c.inner.P.y = InnerPY;
+            c.inner.P.z = InnerPZ;
+            c.inner.I.x = InnerIX;
+            c.inner.I.y = InnerIY;
+            c.inner.I.z = InnerIZ;
+            c.inner.I_max.x = InnerImaxX;
+            c.inner.I_max.y = InnerImaxY;
+            c.inner.I_max.z = InnerImaxZ;
+            c.inner.D.x = InnerDX;
+            c.inner.D.y = InnerDY;
+            c.inner.D.z = InnerDZ;
+            c.outer.P.x = OuterPX;
+            c.outer.P.y = OuterPY;
+            c.outer.P.z = OuterPZ;
+            c.outer.I.x = OuterIX;
+            c.outer.I.y = OuterIY;
+            c.outer.I.z = OuterIZ;
+            c.outer.I_max.x = OuterImaxX;
+            c.outer.I_max.y = OuterImaxY;
+            c.outer.I_max.z = OuterImaxZ;
+            c.outer.D.x = OuterDX;
+            c.outer.D.y = OuterDY;
+            c.outer.D.z = OuterDZ;
+        }
     }
 
     public class TelemetryList
@@ -94,6 +208,30 @@ namespace QuadroschrauberSharp
                 };
                 return t;
             }
+        }
+    }
+
+    [Route("/config/")]
+    public class ConfigRequest : IReturn<ControllerConfig>
+    {
+    }
+
+    public class ConfigService : Service
+    {
+        public ControllerConfig Get(ConfigRequest request)
+        {
+            Quadroschrauber q = Quadroschrauber.Instance;
+
+            return ControllerConfig.Get(q);
+        }
+
+        public ControllerConfig Get(ControllerConfig request)
+        {
+            Quadroschrauber q = Quadroschrauber.Instance;
+
+            request.Set(q);
+
+            return ControllerConfig.Get(q);
         }
     }
 
