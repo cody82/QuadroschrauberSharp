@@ -36,10 +36,10 @@
 #include <sys/mman.h>
 
 static uint8_t servo2gpio[] = {
-	4,	// P1-7
-	17,	// P1-11
-	18,	// P1-12
-	21,	// P1-13
+	//4,	// P1-7
+	//17,	// P1-11
+	//18,	// P1-12
+	//21,	// P1-13
 	22,	// P1-15
 	23,	// P1-16
 	24,	// P1-18
@@ -61,8 +61,8 @@ static uint8_t servo2gpio[] = {
 // will use too much memory bandwidth.  10us is a good value, though you
 // might be ok setting it as low as 2us.
 
-#define CYCLE_TIME_US		20000
-#define SAMPLE_US		10
+#define CYCLE_TIME_US		10000
+#define SAMPLE_US		5
 #define SERVO_TIME_US		(CYCLE_TIME_US/NUM_SERVOS)
 #define SERVO_SAMPLES		(SERVO_TIME_US/SAMPLE_US)
 #define SERVO_MIN		0

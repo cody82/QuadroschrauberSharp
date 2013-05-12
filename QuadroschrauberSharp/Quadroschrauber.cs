@@ -33,10 +33,10 @@ namespace QuadroschrauberSharp
         {
             I2C = new I2C(1);
 
-            MotorFront = new MotorServoBlaster(4);
-            MotorBack = new MotorServoBlaster(7);
-            MotorLeft = new MotorServoBlaster(5);
-            MotorRight = new MotorServoBlaster(6);
+            MotorFront = new MotorServoBlaster(0);
+            MotorBack = new MotorServoBlaster(3);
+            MotorLeft = new MotorServoBlaster(1);
+            MotorRight = new MotorServoBlaster(2);
 
             Remote = new Spektrum();
 

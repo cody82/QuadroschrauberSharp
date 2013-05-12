@@ -20,7 +20,7 @@ namespace QuadroschrauberSharp.Hardware
         {
             if (index < 0 || index > 7)
                 throw new Exception("BUG");
-            if (value < 0 || value > 300)
+            if (value < 0 || value > 499)
                 throw new Exception("BUG");
 
             byte[] buffer = Encoding.ASCII.GetBytes(string.Format("{0}={1}\n", index, value));
@@ -40,7 +40,7 @@ namespace QuadroschrauberSharp.Hardware
 
         public void SetPWM(int microseconds)
         {
-            ServoBlaster.Set(index, microseconds / 10);
+            ServoBlaster.Set(index, Math.Min(microseconds / 5, 499));
         }
 
         public override void SetMilli(int permille)
