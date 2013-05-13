@@ -103,6 +103,7 @@
     <Compile Include="Hardware\MotorServoBlaster.cs" />
     <Compile Include="Hardware\MPU6050.cs" />
     <Compile Include="Hardware\Spektrum.cs" />
+    <Compile Include="IMU.cs" />
     <Compile Include="Math.cs" />
     <Compile Include="Hardware\MPU6050MotionApps.cs" />
     <Compile Include="PID.cs" />

@@ -28,6 +28,11 @@ namespace QuadroschrauberSharp
         //public float Throttle { get; set; }
     }
 
+    [Route("/calibrate/")]
+    public class CalibrationRequest : IReturnVoid
+    {
+    }
+
     public class ControlResult
     {
     }
@@ -233,6 +238,13 @@ namespace QuadroschrauberSharp
             request.Set(q);
 
             return ControllerConfig.Get(q);
+        }
+
+        public void Get(CalibrationRequest request)
+        {
+            Quadroschrauber q = Quadroschrauber.Instance;
+
+            q.Calibrate();
         }
     }
 
