@@ -141,7 +141,7 @@ namespace QuadroschrauberSharp
         VectorFloat GetUncalibratedGyro()
         {
             const float gyro_factor = -(1.0f / 32768.0f * 2000.0f / 180.0f * (float)Math.PI);
-            return new VectorFloat(motion.gx, motion.gy, motion.gz) * gyro_factor;
+            return new VectorFloat(motion.gx, motion.gy, -motion.gz) * gyro_factor;
         }
 
         public VectorFloat GetGyro()
