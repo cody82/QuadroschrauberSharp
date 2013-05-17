@@ -20,6 +20,7 @@ Required hardware
 - A Quadrocopter with motors, motor controllers and BEC-system.
 - (optional) USB WLAN stick 
 - (optional) Spektrum sat receiver for RC.
+- (optional) DS1307 realtime clock.
 
 Software dependencies
 =====================
