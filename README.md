@@ -1,7 +1,10 @@
 QuadroschrauberSharp
 ====================
 
-A quadrocopter control program for the Raspberry Pi and an MPU-6050 written in C#. Does not fly yet.
+A quadrocopter control program for the Raspberry Pi and an MPU-6050 written in C#.
+
+![](Pictures/DSC_0813-small.JPG?raw=true)
+![](Pictures/DSC_0814-small.JPG?raw=true)
 
 Features
 ========
@@ -15,7 +18,8 @@ Required hardware
 - Raspberry Pi
 - MPU-6050
 - A Quadrocopter with motors, motor controllers and BEC-system.
-- USB WLAN stick
+- (optional) USB WLAN stick 
+- (optional) Spektrum sat receiver for RC.
 
 Software dependencies
 =====================
