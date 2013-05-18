@@ -3,6 +3,7 @@ QuadroschrauberSharp
 
 A quadrocopter control program for the Raspberry Pi and an MPU-6050 written in C#.
 
+![](Pictures/DSC_0818.MOV-1.jpg?raw=true)
 ![](Pictures/DSC_0813-small.JPG?raw=true)
 ![](Pictures/DSC_0814-small.JPG?raw=true)
 
