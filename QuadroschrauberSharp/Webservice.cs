@@ -58,6 +58,10 @@ namespace QuadroschrauberSharp
         public float RemoteRoll { get; set; }
         public float RemoteThrottle { get; set; }
         public bool RemoteActive { get; set; }
+        public int MinFrameTime { get; set; }
+        public int MaxFrameTime { get; set; }
+        public int GC0 { get; set; }
+        public int GC1 { get; set; }
     }
 
     [Authenticate]

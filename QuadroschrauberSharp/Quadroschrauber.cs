@@ -48,6 +48,8 @@ namespace QuadroschrauberSharp
         
 
         public int Hz;
+        int minframetime = int.MaxValue;
+        int maxframetime = int.MinValue;
         public void Run()
         {
             int lastticks = Environment.TickCount;
@@ -59,6 +61,8 @@ namespace QuadroschrauberSharp
                 int delta = ticks - lastticks;
                 if (delta > 0)
                 {
+                    minframetime = Math.Min(minframetime, delta);
+                    maxframetime = Math.Max(maxframetime, delta);
                     Tick(delta * 1000);
                     frames++;
                     if (ticks - lastframes > 1000)
@@ -70,7 +74,7 @@ namespace QuadroschrauberSharp
                     }
                 }
                 lastticks = ticks;
-                Thread.Sleep(1);
+                Thread.Sleep(2);
             }
         }
 
@@ -96,6 +100,7 @@ namespace QuadroschrauberSharp
             GetSensorData(dtime, SensorInput);
             if (framecounter++ == 100)
                 imu.Calibrate();
+
 
             if (Remote.Input.active)
             {
@@ -136,8 +141,15 @@ namespace QuadroschrauberSharp
                     RemotePitch = Remote.Input.pitch,
                     RemoteRoll = Remote.Input.roll,
                     RemoteThrottle = Remote.Input.throttle,
-                    RemoteYaw = Remote.Input.yaw
+                    RemoteYaw = Remote.Input.yaw,
+                    MinFrameTime = minframetime,
+                    MaxFrameTime = maxframetime,
+                    GC0 = GC.CollectionCount(0),
+                    GC1 = GC.CollectionCount(1)
                 };
+                minframetime = int.MaxValue;
+                maxframetime = int.MinValue;
+
                 var sessions = service.WebSocket.GetAllSessions();
                 if (sessions.Any())
                 {
