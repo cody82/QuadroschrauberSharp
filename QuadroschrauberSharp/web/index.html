@@ -19,7 +19,7 @@
         </style>
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
         <link rel="stylesheet" href="css/main.css">
-	    <link href="flot/examples/examples.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="css/bootstrapSwitch.css">
 
         <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
         
@@ -34,7 +34,8 @@
         
 	<link href="css/ui-darkness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 	<script src="js/vendor/jquery-ui-1.10.3.custom.js"></script>
-        
+    <script src="js/vendor/bootstrapSwitch.js"></script>
+
 	<script type="text/javascript">
 	    function escapeHtml(str) {
 	        var div = document.createElement('div');
@@ -72,7 +73,7 @@
 	        $.get('/config/?format=json', function (config) {
 	            for (key in config) {
 	                if (config.hasOwnProperty(key)) {
-	                    $("#ControllerConfig").append("<p>"+key+"<input type=\"text\" name=\"" + key + "\" value=\"" + config[key] + "\">" + "" + "</input></p>");
+	                    $("#ControllerConfig").append('<div class="span4">'+key+"<input type=\"text\" name=\"" + key + "\" value=\"" + config[key] + "\">" + "" + "</input></div>");
 	                }
 	            }
 	        });
@@ -136,20 +137,26 @@
 	                if (data.hasOwnProperty(key)) {
 	                    if (DataNames.indexOf(key) == -1) {
 	                        DataNames.push(key);
-	                        $("#DataNames").append("<input type=\"checkbox\" name=\"" + "NameCheckBox" + "\" value=\"" + key + "\">" + key + "</input>");
-	                        $('input[name="NameCheckBox"]').click(function () {
-	                            if ($(this).is(':checked')) {
+	                        $("#DataNames").append("<div class=\"switch span4\"><input type=\"checkbox\" name=\"" + "NameCheckBox" + "\" value=\"" + key + "\"/></div>");
+	                        var $div = $('input[value="' + key + '"]').parent();
+	                        $div.attr('data-on-label', key);
+	                        $div.attr('data-off-label', key);
+	                        $div.bootstrapSwitch();
+	                        $div.on('switch-change', function (e, data) {
+	                            var $el = $(data.el);
+	                            var key2 = $el.attr('value');
+	                            if (data.value) {
 	                                //alert(this.value);
-	                                if (DataNamesDisplayed.indexOf(this.value) == -1) {
-	                                    DataNamesDisplayed.push(this.value);
+	                                if (DataNamesDisplayed.indexOf(key2) == -1) {
+	                                    DataNamesDisplayed.push(key2);
 	                                    var line = new TimeSeries();
 	                                    Smoothie3.addTimeSeries(line, { strokeStyle: 'rgb(' + Math.floor(Math.random() * 256) + ', ' + Math.floor(Math.random() * 256) + ', ' + Math.floor(Math.random() * 256) + ')', lineWidth: 2 });
-	                                    DataLines[this.value] = line;
+	                                    DataLines[key2] = line;
 	                                }
 	                            } else {
-	                                if (DataNamesDisplayed.indexOf(this.value) != -1) {
-	                                    DataNamesDisplayed.splice(DataNamesDisplayed.indexOf(this.value), 1);
-	                                    Smoothie3.removeTimeSeries(DataLines[this.value]);
+	                                if (DataNamesDisplayed.indexOf(key2) != -1) {
+	                                    DataNamesDisplayed.splice(DataNamesDisplayed.indexOf(key2), 1);
+	                                    Smoothie3.removeTimeSeries(DataLines[key2]);
 	                                    //DataLines.splice(DataLines.indexOf(this.value), 1);
 	                                }
 	                            }
