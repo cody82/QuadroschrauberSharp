@@ -99,6 +99,7 @@
     <Compile Include="Filter.cs" />
     <Compile Include="Hardware\I2C.cs" />
     <Compile Include="Hardware\I2CWindows.cs" />
+    <Compile Include="Hardware\Mbed.cs" />
     <Compile Include="Hardware\Motor.cs" />
     <Compile Include="Hardware\MotorServoBlaster.cs" />
     <Compile Include="Hardware\MPU6050.cs" />

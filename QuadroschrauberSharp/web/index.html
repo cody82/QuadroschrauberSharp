@@ -123,14 +123,14 @@
 
 	        Socket.onmessage = function (msg) {
 	            var data = JSON.parse(msg.data);
-	            var gx = data.GyroX;
+	            /*var gx = data.GyroX;
 	            var gy = data.GyroY;
 	            var gz = data.GyroZ;
 	            var ax = data.AccelX;
 	            var ay = data.AccelY;
 	            var az = data.AccelZ;
 	            var hz = data.Hz;
-	            var ticks = data.Ticks;
+	            var ticks = data.Ticks;*/
                 
 	            var key;
 	            for (key in data) {

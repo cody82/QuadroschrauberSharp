@@ -24,6 +24,7 @@ namespace QuadroschrauberSharp
         public Controller Controller = new Controller();
 
         public Spektrum Remote;
+        public Mbed Mbed;
 
         public Quadroschrauber()
         {
@@ -40,6 +41,7 @@ namespace QuadroschrauberSharp
             MotorRight = new MotorServoBlaster(2);
 
             Remote = new Spektrum();
+            Mbed = new Hardware.Mbed();
 
             mpu = new MPU6050(I2C, 0x69);
             imu = new IMU_MPU6050(mpu);
@@ -158,6 +160,11 @@ namespace QuadroschrauberSharp
                     foreach (var s in sessions)
                     {
                         s.Send(data);
+                        string mbed = Mbed.ReceivedJsonString;
+                        if (mbed != null)
+                        {
+                            s.Send(mbed);
+                        }
                     }
                 }
 
