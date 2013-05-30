@@ -437,7 +437,7 @@ setWakeCycleEnabled(true);*/
 
             DEBUG_PRINTLN(F("Reading FIFO count..."));
             uint8_t fifoCount = (byte)getFIFOCount();
-            uint8_t[] fifoBuffer = new uint8_t[128];
+            uint8_t[] fifoBuffer = new uint8_t[10 * 128];
 
             if (fifoCount > 0)
             {

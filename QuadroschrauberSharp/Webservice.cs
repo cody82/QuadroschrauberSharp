@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ServiceStack.CacheAccess;
 using ServiceStack.CacheAccess.Providers;
 using ServiceStack.Common.Web;
+using ServiceStack.Service;
 using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface;
 using ServiceStack.ServiceInterface.Auth;
@@ -226,6 +227,11 @@ namespace QuadroschrauberSharp
     {
     }
 
+    [Route("/camera/")]
+    public class CameraRequest : IReturn<IStreamWriter>
+    {
+    }
+
     public class ConfigService : Service
     {
         public ControllerConfig Get(ConfigRequest request)
@@ -250,6 +256,15 @@ namespace QuadroschrauberSharp
 
             q.Calibrate();
         }
+    }
+
+    public class CameraService : Service
+    {
+        public IStreamWriter Get(CameraRequest request)
+        {
+            return new RaspiCam();
+        }
+
     }
 
     public class ControlService : Service
@@ -282,6 +297,7 @@ namespace QuadroschrauberSharp
             userRep = new InMemoryAuthRepository();
             container.Register<IUserAuthRepository>(userRep);
 
+            userRep.Clear();
             CreateUser(1, "cody", "cody@l33t.de", "cody");
 
             Routes
@@ -320,7 +336,17 @@ namespace QuadroschrauberSharp
         {
             appHost = new AppHost();
             appHost.Init();
-            appHost.Start("http://*:8080/");
+            try
+            {
+                appHost.Start("http://*:8080/");
+            }
+            catch
+            {
+                appHost.Dispose();
+                appHost = new AppHost();
+                appHost.Init();
+                appHost.Start("http://localhost:8080/");
+            }
 
             WebSocket = new WebSocketServer();
 

@@ -14,10 +14,32 @@ namespace QuadroschrauberSharp.Hardware
         SerialPort port;
         Task task;
 
+        bool Open(string portname)
+        {
+            port = new SerialPort(portname);
+            try
+            {
+                port.Open();
+            }
+            catch
+            {
+                port = null;
+                return false;
+            }
+
+            return true;
+        }
+
         public Mbed()
         {
-            port = new SerialPort("/dev/ttyACM1");
-            port.Open();
+            return;
+            if (!Open("/dev/ttyACM0"))
+            {
+                if (!Open("/dev/ttyACM1"))
+                {
+                    return;
+                }
+            }
             task = Task.Factory.StartNew(ReadTask, TaskCreationOptions.LongRunning);
         }
 

@@ -18,9 +18,28 @@ namespace QuadroschrauberSharp
 
             quadroschrauber.service = service;
 
-            quadroschrauber.Init();
+            if (true)
+            {
+                quadroschrauber.Init();
 
-            quadroschrauber.Run();
+                quadroschrauber.Run();
+            }
+            else
+            {
+                H264 h264 = new H264();
+                while(true)
+                {
+                    Console.WriteLine(">");
+                    Console.ReadLine();
+                    byte[] data = h264.ReadNAL();
+                    foreach (var s in service.WebSocket.GetAllSessions())
+                    {
+                        s.Send(new ArraySegment<byte>(data));
+                    }
+                }
+            }
+            Console.ReadLine();
+
         }
     }
 }

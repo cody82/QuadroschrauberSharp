@@ -3188,7 +3188,13 @@ namespace QuadroschrauberSharp.Hardware
         }
         public void getFIFOBytes(uint8_t[] data, uint8_t length)
         {
-            i2c.readBytes(devAddr, MPU6050_RA_FIFO_R_W, length, data);
+            int pos = 0;
+            while (pos < length)
+            {
+                int read = Math.Min(127, length - pos);
+                i2c.readBytes((byte)devAddr, (byte)MPU6050_RA_FIFO_R_W, (byte)read, data, pos);
+                pos += read;
+            }
         }
         /** Write byte to FIFO buffer.
         * @see getFIFOByte()
