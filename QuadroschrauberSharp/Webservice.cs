@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using ServiceStack.Service;
 using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface;
 using ServiceStack.ServiceInterface.Auth;
+using ServiceStack.Text;
 using ServiceStack.WebHost.Endpoints;
 using SuperWebSocket;
 
@@ -102,6 +104,23 @@ namespace QuadroschrauberSharp
         public float OuterDY { get; set; }
         public float OuterDZ { get; set; }
 
+        public static ControllerConfig Load(string filename)
+        {
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string json = sr.ReadToEnd();
+                return (ControllerConfig)JsonSerializer.DeserializeFromString(json, typeof(ControllerConfig));
+            }
+        }
+
+        public void Save(string filename)
+        {
+            using (StreamWriter sw = new StreamWriter(filename))
+            {
+                JsonSerializer.SerializeToWriter(this, sw);
+            }
+        }
+
         public static ControllerConfig Get(Quadroschrauber q)
         {
             Controller c = q.Controller;
@@ -176,6 +195,7 @@ namespace QuadroschrauberSharp
             c.outer.D.x = OuterDX;
             c.outer.D.y = OuterDY;
             c.outer.D.z = OuterDZ;
+
         }
     }
 
@@ -246,6 +266,8 @@ namespace QuadroschrauberSharp
             Quadroschrauber q = Quadroschrauber.Instance;
 
             request.Set(q);
+
+            request.Save("quadroschrauber_controller.json");
 
             return ControllerConfig.Get(q);
         }

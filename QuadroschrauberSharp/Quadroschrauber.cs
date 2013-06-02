@@ -46,6 +46,14 @@ namespace QuadroschrauberSharp
             mpu = new MPU6050(I2C, 0x69);
             imu = new IMU_MPU6050(mpu);
             imu.Init(false);
+
+            try
+            {
+                ControllerConfig.Load("quadroschrauber_controller.json").Set(this);
+            }
+            catch
+            {
+            }
         }
         
 
