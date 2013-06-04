@@ -82,7 +82,10 @@ namespace QuadroschrauberSharp.Hardware
             Input.yaw = (((float)channels[RC_YAW_CHANNEL]) - RC_MID) / (RC_MAX - RC_MID) * RC_YAW_INVERT;
             Input.throttle = (((float)channels[RC_THROTTLE_CHANNEL]) - RC_MIN) / (RC_MAX - RC_MIN) * RC_THROTTLE_INVERT;
 
-            Input.active = true;
+            if (Math.Abs(Input.pitch) <= 2 && Math.Abs(Input.roll) <= 2 && Math.Abs(Input.yaw) <= 2 && Math.Abs(Input.throttle) <= 2)
+                Input.active = true;
+            else
+                Input.active = false;
         }
 
         int[] channels = new int[8];

@@ -9,12 +9,76 @@ using ServiceStack.Service;
 
 namespace QuadroschrauberSharp
 {
-    public class RaspiCam : IStreamWriter
+    public class RaspiPhotoCam
+    {
+        public static RaspiPhotoCam Instance = new RaspiPhotoCam();
+
+        const string picture_directory = "photos";
+        Process process;
+        object lock_object = new object();
+
+        string GetPictureDirectory()
+        {
+            if (!Directory.Exists(picture_directory))
+                Directory.CreateDirectory(picture_directory);
+            return picture_directory;
+        }
+
+        bool Busy
+        {
+            get
+            {
+                lock (lock_object)
+                {
+                    return process != null;
+                }
+            }
+        }
+
+        public string[] PictureList
+        {
+            get
+            {
+                return new DirectoryInfo(picture_directory).GetFiles("*.jpg").Select(x => picture_directory + "/" + x.Name).ToArray();
+            }
+        }
+
+        public void TakePicture()
+        {
+            if (Busy)
+                return;
+
+            string dir = GetPictureDirectory();
+
+            string filename = DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
+            process = new Process()
+            {
+                StartInfo = new ProcessStartInfo("raspistill", "-o " + filename)
+                {
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = false,
+                    UseShellExecute = false
+                }
+            };
+
+            Task.Factory.StartNew(new Action(() =>
+                {
+                    process.Start();
+                    process.WaitForExit();
+                    lock (lock_object)
+                    {
+                        process = null;
+                    }
+                }));
+        }
+    }
+
+    public class RaspiVideoCam : IStreamWriter
     {
         Process process;
         Task readtask;
 
-        public RaspiCam()
+        public RaspiVideoCam()
         {
             Start();
         }

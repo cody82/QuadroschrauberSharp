@@ -247,10 +247,26 @@ namespace QuadroschrauberSharp
     {
     }
 
+    [Route("/photo/")]
+    public class PhotoRequest : IReturn<ControlResult>
+    {
+    }
+
+    public class PhotoList
+    {
+        public List<string> Photos = new List<string>();
+    }
+
+    [Route("/photos/")]
+    public class PhotoListRequest : IReturn<PhotoList>
+    {
+    }
+
     [Route("/camera/")]
     public class CameraRequest : IReturn<IStreamWriter>
     {
     }
+
 
     public class ConfigService : Service
     {
@@ -280,11 +296,29 @@ namespace QuadroschrauberSharp
         }
     }
 
+    public class PhotoService : Service
+    {
+        public ControlResult Get(PhotoRequest request)
+        {
+            RaspiPhotoCam.Instance.TakePicture();
+            return new ControlResult();
+        }
+
+        public PhotoList Get(PhotoListRequest request)
+        {
+            PhotoList list = new PhotoList()
+            {
+                Photos = RaspiPhotoCam.Instance.PictureList.ToList()
+            };
+            return list;
+        }
+    }
+
     public class CameraService : Service
     {
         public IStreamWriter Get(CameraRequest request)
         {
-            return new RaspiCam();
+            return new RaspiVideoCam();
         }
 
     }
@@ -354,6 +388,7 @@ namespace QuadroschrauberSharp
     {
         public WebSocketServer WebSocket;
         public AppHost appHost;
+
         public Webservice()
         {
             appHost = new AppHost();
