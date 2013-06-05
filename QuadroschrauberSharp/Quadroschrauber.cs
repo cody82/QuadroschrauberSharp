@@ -60,12 +60,13 @@ namespace QuadroschrauberSharp
         public int Hz;
         int minframetime = int.MaxValue;
         int maxframetime = int.MinValue;
+        bool exit;
         public void Run()
         {
             int lastticks = Environment.TickCount;
             int frames = 0;
             int lastframes = lastticks;
-            while (true)
+            while (!exit)
             {
                 int ticks = Environment.TickCount;
                 int delta = ticks - lastticks;
@@ -86,6 +87,8 @@ namespace QuadroschrauberSharp
                 lastticks = ticks;
                 Thread.Sleep(2);
             }
+
+            Console.WriteLine("exit");
         }
 
         public float GetSystemLoad()
@@ -214,6 +217,11 @@ namespace QuadroschrauberSharp
         public void Calibrate()
         {
             imu.Calibrate();
+        }
+
+        public void Shutdown()
+        {
+            exit = true;
         }
     }
 }

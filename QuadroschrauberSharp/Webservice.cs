@@ -266,7 +266,23 @@ namespace QuadroschrauberSharp
     public class CameraRequest : IReturn<IStreamWriter>
     {
     }
+    
+    [Route("/quit/")]
+    public class QuitRequest : IReturnVoid
+    {
+    }
 
+    public class SystemService : Service
+    {
+        public void Get(QuitRequest request)
+        {
+            Quadroschrauber q = Quadroschrauber.Instance;
+
+            q.Shutdown();
+
+        }
+
+    }
 
     public class ConfigService : Service
     {
