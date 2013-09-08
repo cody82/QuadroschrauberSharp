@@ -446,6 +446,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MultiWiiSharp\MultiWiiSharp.csproj">
+      <Project>{eb4c3c38-33ee-42e6-a3a8-3ca83d00f40f}</Project>
+      <Name>MultiWiiSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

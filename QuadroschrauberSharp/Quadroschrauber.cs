@@ -33,19 +33,22 @@ namespace QuadroschrauberSharp
 
         public void Init()
         {
-            I2C = new I2C(1);
+            if (false)
+            {
+                I2C = new I2C(1);
 
-            MotorFront = new MotorServoBlaster(0);
-            MotorBack = new MotorServoBlaster(3);
-            MotorLeft = new MotorServoBlaster(1);
-            MotorRight = new MotorServoBlaster(2);
+                MotorFront = new MotorServoBlaster(0);
+                MotorBack = new MotorServoBlaster(3);
+                MotorLeft = new MotorServoBlaster(1);
+                MotorRight = new MotorServoBlaster(2);
 
-            Remote = new Spektrum();
-            Mbed = new Hardware.Mbed();
+                Remote = new Spektrum();
+                Mbed = new Hardware.Mbed();
 
-            mpu = new MPU6050(I2C, 0x69);
-            imu = new IMU_MPU6050(mpu);
-            imu.Init(false);
+                mpu = new MPU6050(I2C, 0x69);
+                imu = new IMU_MPU6050(mpu);
+                imu.Init(false);
+            }
 
             try
             {
@@ -85,6 +88,7 @@ namespace QuadroschrauberSharp
                     }
                 }
                 lastticks = ticks;
+                //GC.Collect();
                 Thread.Sleep(2);
             }
 
@@ -93,7 +97,11 @@ namespace QuadroschrauberSharp
 
         public float GetSystemLoad()
         {
-            using (StreamReader rs = new StreamReader("/proc/loadavg"))
+            const string loadavg = "/proc/loadavg";
+            if (!File.Exists(loadavg))
+                return -1;
+
+            using (StreamReader rs = new StreamReader(loadavg))
             {
                 string s = rs.ReadToEnd();
                 return float.Parse(s.Split(' ')[0]);
@@ -109,13 +117,14 @@ namespace QuadroschrauberSharp
         public void Tick(int microseconds)
         {
             float dtime = (float)microseconds / 1000000.0f;
-            imu.Update(dtime);
+            if(imu != null)
+                imu.Update(dtime);
             GetSensorData(dtime, SensorInput);
-            if (framecounter++ == 100)
+            if (framecounter++ == 100 && imu != null)
                 imu.Calibrate();
 
 
-            if (Remote.Input.active)
+            if (Remote != null && Remote.Input.active)
             {
                 // RC has higher priority than web-interface
                 Controller.Update(dtime, Remote.Input, SensorInput, MotorOutput);
@@ -150,11 +159,11 @@ namespace QuadroschrauberSharp
                     MotorLeft = MotorOutput.motor_left,
                     MotorRight = MotorOutput.motor_right,
                     Load = GetSystemLoad(),
-                    RemoteActive = Remote.Input.active,
-                    RemotePitch = Remote.Input.pitch,
-                    RemoteRoll = Remote.Input.roll,
-                    RemoteThrottle = Remote.Input.throttle,
-                    RemoteYaw = Remote.Input.yaw,
+                    RemoteActive = Remote != null ? Remote.Input.active : false,
+                    RemotePitch = Remote != null ? Remote.Input.pitch : 0,
+                    RemoteRoll = Remote != null ? Remote.Input.roll : 0,
+                    RemoteThrottle = Remote != null ? Remote.Input.throttle : 0,
+                    RemoteYaw = Remote != null ? Remote.Input.yaw : 0,
                     MinFrameTime = minframetime,
                     MaxFrameTime = maxframetime,
                     GC0 = GC.CollectionCount(0),
@@ -196,16 +205,22 @@ namespace QuadroschrauberSharp
 
         void SetMotors(MotorOutput output)
         {
-            MotorBack.Set(MotorOutput.motor_back);
-            MotorFront.Set(MotorOutput.motor_front);
-            MotorLeft.Set(MotorOutput.motor_left);
-            MotorRight.Set(MotorOutput.motor_right);
+            if (MotorBack != null)
+            {
+                MotorBack.Set(MotorOutput.motor_back);
+                MotorFront.Set(MotorOutput.motor_front);
+                MotorLeft.Set(MotorOutput.motor_left);
+                MotorRight.Set(MotorOutput.motor_right);
+            }
         }
 
         void GetSensorData(float dtime, SensorInput output)
         {
-            output.accel = imu.GetAccel();
-            output.gyro = imu.GetGyro();
+            if (imu != null)
+            {
+                output.accel = imu.GetAccel();
+                output.gyro = imu.GetGyro();
+            }
         }
 
         public void Control(ControlRequest request)

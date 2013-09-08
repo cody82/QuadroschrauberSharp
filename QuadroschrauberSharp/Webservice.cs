@@ -231,6 +231,7 @@ namespace QuadroschrauberSharp
         {
             Quadroschrauber q = Quadroschrauber.Instance;
 
+            if(q != null)
             lock (q.SensorQueue)
             {
                 TelemetryList t = new TelemetryList()
@@ -239,6 +240,8 @@ namespace QuadroschrauberSharp
                 };
                 return t;
             }
+
+            return null;
         }
     }
 
@@ -278,8 +281,8 @@ namespace QuadroschrauberSharp
         {
             Quadroschrauber q = Quadroschrauber.Instance;
 
-            q.Shutdown();
-
+            if(q != null)
+                q.Shutdown();
         }
 
     }
@@ -289,26 +292,36 @@ namespace QuadroschrauberSharp
         public ControllerConfig Get(ConfigRequest request)
         {
             Quadroschrauber q = Quadroschrauber.Instance;
+            if(q != null)
+                return ControllerConfig.Get(q);
 
-            return ControllerConfig.Get(q);
+            return null;
         }
 
         public ControllerConfig Post(ControllerConfig request)
         {
             Quadroschrauber q = Quadroschrauber.Instance;
 
-            request.Set(q);
+            if (q != null)
+            {
+                request.Set(q);
 
-            request.Save("quadroschrauber_controller.json");
+                request.Save("quadroschrauber_controller.json");
 
-            return ControllerConfig.Get(q);
+                return ControllerConfig.Get(q);
+            }
+
+            return null;
         }
 
         public void Get(CalibrationRequest request)
         {
             Quadroschrauber q = Quadroschrauber.Instance;
 
-            q.Calibrate();
+            if(q!= null)
+                q.Calibrate();
+            if (Program.MW != null)
+                Program.MW.Calibrate();
         }
     }
 
@@ -345,7 +358,10 @@ namespace QuadroschrauberSharp
         {
             Quadroschrauber q = Quadroschrauber.Instance;
 
-            q.Control(request);
+            if(q != null)
+                q.Control(request);
+            if (Program.MW != null)
+                Program.MW.Control(request);
 
             return new ControlResult();
         }
@@ -480,7 +496,11 @@ namespace QuadroschrauberSharp
         void WebSocket_NewMessageReceived(WebSocketSession session, string value)
         {
             ControlRequest control = (ControlRequest)WebSocket.JsonDeserialize(value, typeof(ControlRequest));
-            Quadroschrauber.Instance.Control(control);
+            
+            if(Quadroschrauber.Instance != null)
+                Quadroschrauber.Instance.Control(control);
+            if (Program.MW != null)
+                Program.MW.Control(control);
         }
     }
 }
